@@ -2,11 +2,10 @@ import Link from "next/link";
 import { siteConfig } from "@/lib/site";
 import { footerNavigation } from "@/lib/navigation";
 import { Container, Divider, Eyebrow } from "@/components/ui";
-import { RibbonAccent } from "./ribbon-accent";
 
 /**
  * SiteFooter — Editorial, prestigious university dark footer with multi-column
- * navigation, department crest, contact information, social links, and ribbon accent.
+ * navigation, department crest, contact information, and social links.
  */
 export function SiteFooter() {
   return (
@@ -131,9 +130,6 @@ export function SiteFooter() {
           </ul>
         </div>
       </Container>
-
-      {/* Signature bottom-right ribbon */}
-      <RibbonAccent position="bottom-right" color="blue" size="md" />
     </footer>
   );
 }

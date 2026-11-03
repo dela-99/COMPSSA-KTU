@@ -79,8 +79,11 @@ export function Nav({
 
   // Desktop Horizontal Navigation
   return (
-    <nav className={cn("flex items-center gap-1 xl:gap-2", className)} aria-label="Primary">
-      <ul className="flex items-center gap-1 xl:gap-2">
+    <nav
+      className={cn("flex items-center gap-0.5 xl:gap-1.5", className)}
+      aria-label="Primary"
+    >
+      <ul className="flex items-center gap-0.5 xl:gap-1.5">
         {items.map((item) => (
           <DesktopNavItem
             key={item.href}
@@ -133,12 +136,14 @@ function DesktopNavItem({
       <Link
         href={item.href}
         onClick={onNavigate}
+        aria-current={isActive ? "page" : undefined}
         className={cn(
-          "inline-flex items-center gap-1 px-2.5 py-1.5 font-sans text-[0.875rem] transition-all duration-150 rounded-sm",
-          "hover:text-ink hover:bg-paper-warm/80",
+          "relative inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-1.5 font-sans text-[0.8125rem] transition-colors duration-150 xl:px-2.5 xl:text-[0.875rem]",
+          // Active indicator drawn as a pseudo-element so it never affects layout.
+          "after:absolute after:bottom-0.5 after:left-2 after:right-2 after:h-px after:bg-accent after:opacity-0 after:transition-opacity after:duration-150 xl:after:left-2.5 xl:after:right-2.5",
           isActive
-            ? "text-ink font-semibold"
-            : "text-ink-soft/90 hover:text-ink"
+            ? "text-ink font-semibold after:opacity-100"
+            : "text-ink-soft/90 hover:bg-paper-warm/70 hover:text-ink",
         )}
       >
         <span>{item.label}</span>
@@ -168,19 +173,20 @@ function DesktopNavItem({
               : "opacity-0 scale-95 pointer-events-none"
           )}
         >
-          <div className="w-56 p-2 bg-paper border border-rule shadow-xl rounded-md space-y-1">
+          <div className="glass-panel w-56 rounded-xl bg-paper/[0.94] p-2 space-y-1">
             {item.children!.map((child) => {
               const isChildActive = pathname === child.href;
               return (
                 <Link
                   key={child.href}
                   href={child.href}
+                  aria-current={isChildActive ? "page" : undefined}
                   onClick={() => {
                     setOpen(false);
                     onNavigate?.();
                   }}
                   className={cn(
-                    "block px-3 py-2 rounded text-[0.875rem] font-sans transition-colors duration-150",
+                    "block rounded-lg px-3 py-2 font-sans text-[0.875rem] transition-colors duration-150",
                     isChildActive
                       ? "bg-paper-warm text-accent font-medium"
                       : "text-ink-soft hover:bg-paper-warm hover:text-ink"

@@ -37,7 +37,10 @@ const featureCards: FeatureCardItem[] = [
 
 export function HeroSection() {
   return (
-    <section className="relative bg-[#0E1117] text-white pt-16 pb-28 sm:pt-24 sm:pb-36 overflow-hidden">
+    // The negative offset lets this section slide underneath the floating
+    // glass navigation bar, so the blur reads the campus image through it.
+    // The matching top padding keeps the hero content clear of the bar.
+    <section className="relative -mt-[var(--nav-offset)] bg-[#0E1117] text-white pt-[calc(4rem+var(--nav-offset))] pb-28 sm:pt-[calc(6rem+var(--nav-offset))] sm:pb-36 overflow-hidden">
       {/* Background Campus/Architecture Graphic with Atmospheric Overlay */}
       <div className="absolute inset-0 z-0">
         <div

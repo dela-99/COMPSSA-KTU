@@ -15,6 +15,13 @@
     --rule: 36 16% 87%;                  /* hairline #E2DFD8 */
     --accent: 0 60% 30%;                 /* burgundy #7A1F1F */
 
+    /*
+      Height reserved by the floating navigation bar.
+      = nav top offset + nav height. Kept in sync with the header so the
+      floating bar never overlaps the first row of page content.
+    */
+    --nav-offset: 68px;
+
     /* shadcn-aligned semantic tokens (kept in our palette) */
     --border: 36 16% 87%;
     --input: 36 16% 87%;
@@ -40,6 +47,12 @@
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "kern", "liga", "calt", "ss01";
     scroll-behavior: smooth;
+  }
+
+  @media (min-width: 640px) {
+    :root {
+      --nav-offset: 72px;
+    }
   }
 
   body {
@@ -124,6 +137,74 @@
   .surface {
     @apply bg-paper border border-rule transition-colors duration-200 ease-editorial hover:border-rule-strong;
   }
+
+  /* ------------------------------------------------------------------
+     Liquid glass — floating navigation surfaces.
+
+     Translucent, blurred, hairline border, restrained shadow.
+     The base background colour is applied by a utility class on the
+     element (so it can shift on scroll); this class supplies the
+     blur, border and shadow. Browsers without backdrop-filter fall
+     back to an opaque surface via the @supports block at the end of
+     this file.
+     ------------------------------------------------------------------ */
+  .glass-nav {
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid hsl(var(--border) / 0.9);
+    box-shadow:
+      0 1px 2px hsl(var(--foreground) / 0.04),
+      0 10px 30px -12px hsl(var(--foreground) / 0.14);
+  }
+
+  /* Specular highlight along the top edge — the "liquid" read. */
+  .glass-nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      hsl(0 0% 100% / 0.55),
+      hsl(0 0% 100% / 0) 58%
+    );
+  }
+
+  /* Scrolled state — more opaque, deeper shadow. No dimension change,
+     so the bar never shifts layout while scrolling. */
+  .glass-nav-scrolled {
+    box-shadow:
+      0 1px 2px hsl(var(--foreground) / 0.05),
+      0 18px 40px -14px hsl(var(--foreground) / 0.2);
+  }
+
+  /* Dropdown / mobile menu panels — same glass language, higher opacity
+     so they stay legible over the dark hero imagery. */
+  .glass-panel {
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid hsl(var(--border) / 0.9);
+    box-shadow:
+      0 1px 2px hsl(var(--foreground) / 0.05),
+      0 24px 48px -16px hsl(var(--foreground) / 0.22);
+  }
+
+  /* Mobile panel open/close. `visibility` is delayed on close so the
+     exit animation plays, and the panel is removed from the tab order
+     once hidden. */
+  .mobile-panel {
+    transition:
+      opacity 200ms ease,
+      transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      visibility 0s linear 200ms;
+  }
+  .mobile-panel[data-state="open"] {
+    transition:
+      opacity 200ms ease,
+      transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      visibility 0s linear 0s;
+  }
 }
 
 @layer utilities {
@@ -145,5 +226,20 @@
 
   .text-pretty {
     text-wrap: pretty;
+  }
+}
+
+/* =========================================================================
+   Fallback — browsers without backdrop-filter support.
+   Unlayered so it wins over the layered utility background classes and the
+   glass surfaces above. The bar degrades to a solid, still-refined surface
+   rather than losing its separation from the page.
+   ========================================================================= */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-nav {
+    background-color: hsl(var(--background) / 0.99) !important;
+  }
+  .glass-panel {
+    background-color: hsl(var(--background) / 0.99) !important;
   }
 }
