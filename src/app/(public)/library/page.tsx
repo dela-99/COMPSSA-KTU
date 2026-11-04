@@ -10,40 +10,51 @@ import {
   CardTitle,
   CardDescription,
   CardFooter,
-  Button,
+  CardMedia,
+  CardAction,
+  CardMeta,
+  Reveal,
 } from "@/components/ui";
+import { NavIcon } from "@/components/ui/icons";
+import { libraryDestinations } from "@/lib/navigation";
+import {
+  news,
+  gallery,
+  researchAreas,
+  researchProjects,
+  publications,
+  pastQuestions,
+} from "@/data";
+import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Library",
-  description: "Explore the department&rsquo;s digital library &mdash; news, gallery, research, and past questions.",
+  description:
+    "A curated collection of departmental resources, news, photographs, research outputs and academic materials.",
 };
 
-const libraryItems = [
-  {
-    label: "News",
-    href: "/news",
-    description: "Latest announcements, departmental updates, and news from the Department of Computer Science.",
-    icon: NewspaperIcon,
-  },
-  {
-    label: "Gallery",
-    href: "/gallery",
-    description: "Browse photographs from departmental events, ceremonies, and student life.",
-    icon: ImageIcon,
-  },
-  {
-    label: "Research",
-    href: "/research",
-    description: "Research areas, active projects, and publications from faculty and postgraduate students.",
-    icon: FlaskIcon,
-  },
-  {
-    label: "Past Questions",
-    href: "/past-questions",
-    description: "Searchable archive of past examination papers filtered by course, level, and academic year.",
-    icon: FileIcon,
-  },
-] as const;
+/**
+ * The four destinations are resolved from the existing navigation
+ * configuration and enriched with live counts from the existing data layer.
+ * Library is a presentation and navigation layer only — it creates no
+ * dataset, no table and no service of its own.
+ */
+const [newsDestination, galleryDestination, researchDestination, pastQuestionsDestination] =
+  libraryDestinations as [
+    typeof libraryDestinations[0],
+    typeof libraryDestinations[1],
+    typeof libraryDestinations[2],
+    typeof libraryDestinations[3],
+  ];
+
+const latestNews = [...news].sort((a, b) =>
+  b.publishedAt.localeCompare(a.publishedAt),
+)[0];
+const latestGallery = gallery[0];
+const publishedPapers = pastQuestions.filter((pq) => pq.published);
+const academicYears = Array.from(
+  new Set(publishedPapers.map((pq) => pq.academicYear)),
+).sort((a, b) => b.localeCompare(a));
 
 export default function LibraryPage() {
   return (
@@ -51,86 +62,245 @@ export default function LibraryPage() {
       <Section spacing="loose" rule>
         <Container size="wide">
           <Eyebrow>Library</Eyebrow>
-          <Heading as="h1" size="display" className="mt-3 max-w-[20ch]">
-            The department&rsquo;s digital library.
+          <Heading as="h1" size="display" className="mt-3 max-w-[22ch]">
+            A curated collection of departmental resources.
           </Heading>
-          <p className="mt-6 font-serif text-[1.125rem] leading-relaxed text-ink-soft max-w-[60ch]">
-            A curated collection of resources &mdash; news, photographs, research output, and examination papers &mdash;
-            maintained by the Department of Computer Science for students, staff, and visitors.
+          <p className="mt-6 max-w-[60ch] font-serif text-[1.125rem] leading-relaxed text-ink-soft">
+            News, photographs, research outputs and academic materials —
+            maintained by the Department of Computer Science for students,
+            staff and visitors.
           </p>
         </Container>
       </Section>
 
       <Section spacing="default">
         <Container size="wide">
-          <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {libraryItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <li key={item.label}>
-                  <Card
-                    interactive
-                    href={item.href}
-                    className="h-full flex flex-col"
+          {/*
+            An intentionally asymmetric composition — one large featured
+            card, two medium cards and one wide supporting card. The grid
+            collapses to a single column on small screens, so the order
+            stays intact everywhere.
+          */}
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6">
+            {/* Featured — News */}
+            <Reveal className="lg:col-span-7 lg:row-span-2" delay={0}>
+              <Card
+                href={newsDestination.href}
+                interactive
+                accent
+                flush
+                className="flex h-full flex-col overflow-hidden"
+              >
+                <div className="p-6 pb-0 sm:p-7 sm:pb-0">
+                  <CardHeader className="flex items-center gap-3">
+                    <span
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent"
+                      aria-hidden
+                    >
+                      <NavIcon name={newsDestination.icon ?? "news"} className="h-5 w-5" />
+                    </span>
+                    <div className="min-w-0">
+                      <CardTitle className="text-[1.375rem]">
+                        {newsDestination.label}
+                      </CardTitle>
+                      <CardMeta className="mt-1 block">
+                        {news.length} article{news.length === 1 ? "" : "s"}
+                      </CardMeta>
+                    </div>
+                  </CardHeader>
+                </div>
+
+                <CardMedia ratio="16 / 9" className="mt-6 w-full">
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    <NavIcon
+                      name={newsDestination.icon ?? "news"}
+                      className="h-10 w-10 text-ink-subtle/40"
+                    />
+                  </span>
+                </CardMedia>
+
+                <div className="flex flex-1 flex-col p-6 pt-5 sm:p-7 sm:pt-5">
+                  <CardDescription className="flex-1">
+                    {newsDestination.description}
+                  </CardDescription>
+                  {latestNews && (
+                    <p className="mt-4 border-l-2 border-accent/30 pl-3 font-sans text-[0.8125rem] leading-relaxed text-ink-subtle">
+                      <span className="block uppercase tracking-[0.14em]">
+                        Latest · {formatDate(latestNews.publishedAt)}
+                      </span>
+                      <span className="mt-1 block font-serif text-[0.9375rem] leading-snug text-ink">
+                        {latestNews.title}
+                      </span>
+                    </p>
+                  )}
+                  <CardFooter className="mt-5 border-t-0 pt-0">
+                    <CardAction>Read the news</CardAction>
+                  </CardFooter>
+                </div>
+              </Card>
+            </Reveal>
+
+            {/* Medium — Gallery */}
+            <Reveal className="lg:col-span-5" delay={80}>
+              <Card
+                href={galleryDestination.href}
+                interactive
+                flush
+                className="flex h-full flex-col overflow-hidden"
+              >
+                <CardMedia ratio="16 / 9" className="w-full">
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    <NavIcon
+                      name={galleryDestination.icon ?? "gallery"}
+                      className="h-9 w-9 text-ink-subtle/40"
+                    />
+                  </span>
+                </CardMedia>
+                <div className="flex flex-1 flex-col p-6 pt-5 sm:p-7 sm:pt-5">
+                  <CardHeader className="mb-3 flex items-center gap-3">
+                    <span
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-paper-warm text-ink-subtle"
+                      aria-hidden
+                    >
+                      <NavIcon
+                        name={galleryDestination.icon ?? "gallery"}
+                        className="h-4 w-4"
+                      />
+                    </span>
+                    <CardTitle className="text-[1.125rem]">
+                      {galleryDestination.label}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardDescription className="flex-1">
+                    {galleryDestination.description}
+                  </CardDescription>
+                  {latestGallery && (
+                    <p className="mt-4 font-sans text-[0.8125rem] text-ink-subtle">
+                      {gallery.length} photographs · most recent{" "}
+                      <span className="text-ink">{latestGallery.title}</span>
+                    </p>
+                  )}
+                  <CardFooter className="mt-4 border-t-0 pt-0">
+                    <CardAction>Browse the gallery</CardAction>
+                  </CardFooter>
+                </div>
+              </Card>
+            </Reveal>
+
+            {/* Medium — Research */}
+            <Reveal className="lg:col-span-5" delay={140}>
+              <Card
+                href={researchDestination.href}
+                interactive
+                className="flex h-full flex-col"
+              >
+                <CardHeader className="mb-3 flex items-center gap-3">
+                  <span
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-paper-warm text-ink-subtle"
+                    aria-hidden
                   >
-                    <CardHeader>
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
-                          <Icon className="h-5 w-5" aria-hidden />
-                        </div>
-                        <CardTitle className="text-[1.125rem]">{item.label}</CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardDescription className="flex-1">
-                      {item.description}
+                    <NavIcon
+                      name={researchDestination.icon ?? "research"}
+                      className="h-4 w-4"
+                    />
+                  </span>
+                  <CardTitle className="text-[1.125rem]">
+                    {researchDestination.label}
+                  </CardTitle>
+                </CardHeader>
+                <CardDescription className="flex-1">
+                  {researchDestination.description}
+                </CardDescription>
+                <ul className="mt-4 flex flex-wrap gap-1.5">
+                  {researchAreas.map((area) => (
+                    <li
+                      key={area.id}
+                      className="rounded-full border border-rule px-2.5 py-1 font-sans text-[0.75rem] text-ink-muted"
+                    >
+                      {area.name}
+                    </li>
+                  ))}
+                </ul>
+                <CardFooter className="mt-5 border-t-0 pt-0">
+                  <CardAction>Explore research</CardAction>
+                  <span className="font-sans text-[0.75rem] text-ink-subtle">
+                    {researchAreas.length} areas · {researchProjects.length} projects ·{" "}
+                    {publications.length} publications
+                  </span>
+                </CardFooter>
+              </Card>
+            </Reveal>
+
+            {/* Wide supporting — Past Questions */}
+            <Reveal className="lg:col-span-12" delay={200}>
+              <Card
+                href={pastQuestionsDestination.href}
+                interactive
+                accent
+                className="flex h-full flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-10"
+              >
+                <div className="flex min-w-0 items-start gap-4">
+                  <span
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent"
+                    aria-hidden
+                  >
+                    <NavIcon
+                      name={pastQuestionsDestination.icon ?? "past-questions"}
+                      className="h-5 w-5"
+                    />
+                  </span>
+                  <div className="min-w-0">
+                    <CardTitle className="text-[1.25rem]">
+                      {pastQuestionsDestination.label}
+                    </CardTitle>
+                    <CardDescription className="mt-2">
+                      {pastQuestionsDestination.description}
                     </CardDescription>
-                    <CardFooter className="border-t-0 pt-0 mt-auto">
-                      <Link href={item.href}>
-                        <Button variant="ghost" size="sm">
-                          Explore →
-                        </Button>
-                      </Link>
-                    </CardFooter>
-                  </Card>
-                </li>
-              );
-            })}
+                  </div>
+                </div>
+
+                <div className="flex shrink-0 flex-col gap-4 sm:items-end">
+                  <div className="flex flex-wrap gap-1.5 sm:justify-end">
+                    {academicYears.map((year) => (
+                      <span
+                        key={year}
+                        className="rounded-full border border-rule px-2.5 py-1 font-sans text-[0.75rem] text-ink-muted"
+                      >
+                        {year}
+                      </span>
+                    ))}
+                  </div>
+                  <CardAction>Search the archive</CardAction>
+                </div>
+              </Card>
+            </Reveal>
+          </div>
+        </Container>
+      </Section>
+
+      {/*
+        A quiet closing band that repeats the destination set as plain links.
+        It guarantees every destination stays reachable even if the cards
+        above are being edited, and it keeps the page useful without a
+        hover interaction.
+      */}
+      <Section spacing="tight" rule tone="warm">
+        <Container size="wide">
+          <ul className="flex flex-wrap items-center gap-x-8 gap-y-3">
+            {libraryDestinations.map((destination) => (
+              <li key={destination.href}>
+                <Link
+                  href={destination.href}
+                  className="group inline-flex items-center gap-2 font-sans text-[0.875rem] text-ink-muted transition-colors hover:text-accent"
+                >
+                  <span className="h-1 w-1 rounded-full bg-rule-strong transition-colors group-hover:bg-accent" />
+                  {destination.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </Container>
       </Section>
     </>
-  );
-}
-
-// Icon components
-function NewspaperIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-    </svg>
-  );
-}
-
-function ImageIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-    </svg>
-  );
-}
-
-function FlaskIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  );
-}
-
-function FileIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-    </svg>
   );
 }

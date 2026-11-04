@@ -1,71 +1,208 @@
 /**
  * Navigation configuration.
- * Used by the public site header / mobile nav / footer.
+ * Used by the public site header / desktop nav / mobile dock / footer.
  *
  * Keep this file the single source of truth — pages should reference these labels,
  * not hardcode titles.
+ *
+ * Architecture (UI refinement, Phase 1–2):
+ *
+ *   SiteHeader  → identity only (crest, name, faculty label, Portal button).
+ *                  Plain editorial bar, no glass.
+ *   Desktop nav → floating glass pill beneath the identity bar.
+ *   Mobile dock → floating glass dock pinned to the bottom edge.
+ *
+ * Both navigations read the SAME destination set, so the information
+ * architecture is identical across breakpoints — only the placement changes.
  */
+
+export type NavIconName =
+  | "home"
+  | "academics"
+  | "people"
+  | "library"
+  | "more"
+  | "about"
+  | "students"
+  | "events"
+  | "contact"
+  | "portal"
+  | "research"
+  | "news"
+  | "gallery"
+  | "past-questions";
 
 export type NavLink = {
   label: string;
   href: string;
   description?: string;
+  icon?: NavIconName;
 };
 
 export type NavGroup = {
   label: string;
   href: string;
   description?: string;
+  icon?: NavIconName;
   children?: NavLink[];
 };
 
-export const primaryNavigation: NavGroup[] = [
+/**
+ * Destinations that are not surfaced directly in the navigation bar.
+ * Shared by the desktop "More" dropdown and the mobile dock's expanded panel
+ * so the two can never drift apart.
+ */
+export const moreLinks: NavLink[] = [
   {
     label: "About",
     href: "/about",
     description: "History, mission, and structure.",
-  },
-  {
-    label: "Academics",
-    href: "/academics",
-    description: "Programmes, courses, and resources.",
-  },
-  {
-    label: "People",
-    href: "/people",
-    description: "HOD, lecturers, executives, alumni.",
-    children: [
-      { label: "HOD", href: "/people/hod", description: "Current head of department." },
-      { label: "Lecturers & Staff", href: "/people/staff", description: "Academic and administrative staff." },
-      { label: "Executives", href: "/people/executives", description: "Current and past student executives." },
-    ],
+    icon: "about",
   },
   {
     label: "Students",
     href: "/students",
     description: "Resources, projects, clubs, opportunities.",
-  },
-  {
-    label: "Library",
-    href: "/library",
-    description: "News, gallery, research, past questions.",
+    icon: "students",
   },
   {
     label: "Events",
     href: "/events",
     description: "Departmental events.",
+    icon: "events",
+  },
+  {
+    label: "Contact",
+    href: "/contact",
+    description: "Get in touch.",
+    icon: "contact",
+  },
+  {
+    label: "Portal",
+    href: "/admin",
+    description: "Department staff and admin portal.",
+    icon: "portal",
+  },
+];
+
+/**
+ * Primary navigation — the destination set for BOTH the desktop glass bar and
+ * the mobile bottom dock.
+ */
+export const primaryNavigation: NavGroup[] = [
+  {
+    label: "Home",
+    href: "/",
+    description: "Department home.",
+    icon: "home",
+  },
+  {
+    label: "Academics",
+    href: "/academics",
+    description: "Programmes, courses, and resources.",
+    icon: "academics",
+    children: [
+      {
+        label: "Programmes",
+        href: "/academics/programmes",
+        description: "Degrees offered by the department.",
+        icon: "academics",
+      },
+      {
+        label: "Courses",
+        href: "/academics/courses",
+        description: "Course catalogue by level.",
+        icon: "academics",
+      },
+    ],
+  },
+  {
+    label: "People",
+    href: "/people",
+    description: "HOD, lecturers, executives, alumni.",
+    icon: "people",
+    children: [
+      {
+        label: "HOD",
+        href: "/people/hod",
+        description: "Current head of department.",
+        icon: "people",
+      },
+      {
+        label: "Lecturers & Staff",
+        href: "/people/staff",
+        description: "Academic and administrative staff.",
+        icon: "people",
+      },
+      {
+        label: "Executives",
+        href: "/people/executives",
+        description: "Current and past student executives.",
+        icon: "people",
+      },
+    ],
+  },
+  {
+    label: "Library",
+    href: "/library",
+    description: "News, gallery, research, past questions.",
+    icon: "library",
   },
   {
     label: "More",
     href: "#",
-    description: "Additional links.",
-    children: [
-      { label: "Research", href: "/research", description: "Research areas, projects, publications." },
-      { label: "News", href: "/news", description: "News and announcements." },
-      { label: "Gallery", href: "/gallery", description: "Photo gallery." },
-      { label: "Past Questions", href: "/past-questions", description: "Searchable past question papers." },
-      { label: "Contact", href: "/contact", description: "Get in touch." },
-    ],
+    description: "Additional destinations.",
+    icon: "more",
+    children: moreLinks,
+  },
+];
+
+/**
+ * Mobile dock — the same destinations as `primaryNavigation`, expressed for a
+ * compact five-slot dock. The first four navigate directly; "More" opens the
+ * expanded panel above the dock.
+ */
+export const dockNavigation: NavGroup[] = [
+  { label: "Home", href: "/", icon: "home" },
+  { label: "Academics", href: "/academics", icon: "academics" },
+  { label: "People", href: "/people", icon: "people" },
+  { label: "Library", href: "/library", icon: "library" },
+  { label: "More", href: "#", icon: "more", children: moreLinks },
+];
+
+/**
+ * Library destinations — the four existing sections the Library landing page
+ * presents. Routing only: the Library page enriches these with live counts
+ * from the existing data layer. No new dataset is created.
+ */
+export const libraryDestinations: NavLink[] = [
+  {
+    label: "News",
+    href: "/news",
+    description:
+      "Department announcements, updates, achievements, and activities from across the faculty.",
+    icon: "news",
+  },
+  {
+    label: "Gallery",
+    href: "/gallery",
+    description:
+      "Photographs from departmental events, ceremonies, labs, and student life.",
+    icon: "gallery",
+  },
+  {
+    label: "Research",
+    href: "/research",
+    description:
+      "Research areas, active projects, and publications from staff and postgraduate students.",
+    icon: "research",
+  },
+  {
+    label: "Past Questions",
+    href: "/past-questions",
+    description:
+      "Searchable archive of past examination papers, filterable by course, level, and year.",
+    icon: "past-questions",
   },
 ];
 

@@ -16,11 +16,23 @@
     --accent: 0 60% 30%;                 /* burgundy #7A1F1F */
 
     /*
-      Height reserved by the floating navigation bar.
-      = nav top offset + nav height. Kept in sync with the header so the
-      floating bar never overlaps the first row of page content.
+      Space reserved by the fixed chrome at the top of every page.
+
+      Base (mobile):  the plain identity bar only.
+      lg (desktop):   the identity bar PLUS the floating glass navigation
+                      pill that floats beneath it.
+
+      Kept in sync with `site-header.tsx` so no page content is ever pushed
+      underneath the header, and no layout shift occurs when the navigation
+      hides on scroll (the space stays reserved either way).
     */
-    --nav-offset: 68px;
+    --nav-offset: 56px;
+
+    /*
+      Space reserved at the bottom of the viewport by the mobile dock.
+      Collapses to 0 on desktop, where the navigation floats at the top.
+    */
+    --dock-offset: 84px;
 
     /* shadcn-aligned semantic tokens (kept in our palette) */
     --border: 36 16% 87%;
@@ -36,6 +48,13 @@
     --popover-foreground: 60 5% 4%;
     --card: 60 20% 98%;
     --card-foreground: 60 5% 4%;
+
+    /*
+      Card radii (Phase 3). Rounded rectangles with a controlled radius —
+      clearly not squares, and deliberately not pills.
+    */
+    --radius-card: 14px;
+    --radius-card-sm: 9px;
   }
 
   html {
@@ -51,7 +70,15 @@
 
   @media (min-width: 640px) {
     :root {
-      --nav-offset: 72px;
+      --nav-offset: 64px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      /* identity bar (64px) + gap (12px) + glass nav pill (44px) */
+      --nav-offset: 120px;
+      --dock-offset: 0px;
     }
   }
 
@@ -190,20 +217,113 @@
       0 24px 48px -16px hsl(var(--foreground) / 0.22);
   }
 
-  /* Mobile panel open/close. `visibility` is delayed on close so the
+  /* Expandable panel open/close. `visibility` is delayed on close so the
      exit animation plays, and the panel is removed from the tab order
-     once hidden. */
-  .mobile-panel {
+     once hidden. Shared by the desktop dropdown and the mobile More panel. */
+  .panel-reveal {
     transition:
       opacity 200ms ease,
       transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1),
       visibility 0s linear 200ms;
   }
-  .mobile-panel[data-state="open"] {
+  .panel-reveal[data-state="open"] {
     transition:
       opacity 200ms ease,
       transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1),
       visibility 0s linear 0s;
+  }
+
+  /* ------------------------------------------------------------------
+     Card system (Phase 3).
+
+     One shared visual language for cards across Library, News, Gallery
+     and Research. Rounded rectangles with a controlled radius, a hairline
+     border, layered surfaces, and a restrained department-colour accent
+     along one edge — never a neon glow.
+
+     The accent is a single soft gradient hairline in the department
+     accent colour. It brightens on hover/focus and nothing else moves.
+     ------------------------------------------------------------------ */
+  .card-surface {
+    position: relative;
+    isolation: isolate;
+    border-radius: var(--radius-card);
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow:
+      0 1px 2px hsl(var(--foreground) / 0.04),
+      0 12px 28px -22px hsl(var(--foreground) / 0.22);
+    transition:
+      border-color 240ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      box-shadow 240ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 240ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  /* Interactive cards lift a hair and deepen the border — never jump. */
+  .card-surface-interactive:hover {
+    border-color: hsl(var(--foreground) / 0.28);
+    box-shadow:
+      0 1px 2px hsl(var(--foreground) / 0.05),
+      0 22px 44px -26px hsl(var(--foreground) / 0.3);
+    transform: translate3d(0, -2px, 0);
+  }
+  .card-surface-interactive:focus-within {
+    border-color: hsl(var(--accent) / 0.55);
+  }
+
+  /* Restrained edge accent — one soft hairline, department accent colour. */
+  .card-accent::after {
+    content: "";
+    position: absolute;
+    left: 14%;
+    right: 14%;
+    bottom: -1px;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--accent) / 0) 0%,
+      hsl(var(--accent) / 0.5) 50%,
+      hsl(var(--accent) / 0) 100%
+    );
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity 260ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .card-accent:hover::after,
+  .card-accent:focus-within::after {
+    opacity: 1;
+  }
+
+  /* Media well — rounded, clipped, with a gentle editorial wash so
+     placeholder frames read as designed space rather than missing images. */
+  .card-media {
+    position: relative;
+    overflow: hidden;
+    background:
+      linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--background)) 55%),
+      hsl(var(--secondary));
+    border-radius: var(--radius-card-sm);
+  }
+  .card-media img {
+    transition: transform 620ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .card-surface-interactive:hover .card-media img {
+    transform: scale(1.04);
+  }
+
+  /* A faint engraved texture for media placeholders — quiet, institutional. */
+  .card-media-texture::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.35;
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      hsl(var(--foreground) / 0.16) 1px,
+      transparent 0
+    );
+    background-size: 14px 14px;
   }
 }
 
@@ -218,6 +338,60 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
+  }
+
+  /* ------------------------------------------------------------------
+     Safe-area insets (Phase 1.2 / 1.3).
+
+     These were previously referenced but never defined, so the mobile
+     dock sat flush against devices with a home indicator. Now they map
+     to the real CSS environment variables.
+     ------------------------------------------------------------------ */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .safe-left {
+    padding-left: env(safe-area-inset-left, 0px);
+  }
+  .safe-right {
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+  .safe-inline {
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+
+  /* Reserve room for the floating bottom dock so it never covers the
+     end of a page (footer links, filter results, buttons). */
+  .dock-safe {
+    padding-bottom: var(--dock-offset);
+  }
+
+  /* ------------------------------------------------------------------
+     Scroll-driven visibility (Phase 1.3).
+
+     Two variants because the surfaces hide in opposite directions:
+     the bottom dock drops away downwards, the top glass bar lifts
+     away upwards. Both use transform + opacity only, so they never
+     trigger layout, and the reserved space is untouched — no shift.
+     ------------------------------------------------------------------ */
+  .nav-visibility {
+    transition:
+      transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      opacity 220ms ease;
+    will-change: transform, opacity;
+  }
+  .nav-visibility[data-visible="false"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+  /* Bottom dock — slides down past the viewport edge. */
+  .nav-dock[data-visible="false"] {
+    transform: translate3d(0, 130%, 0);
+  }
+  /* Top bar — lifts up past the viewport edge. */
+  .nav-float[data-visible="false"] {
+    transform: translate3d(0, calc(-100% - 1.5rem), 0);
   }
 
   .text-balance {
