@@ -41,24 +41,14 @@ export const primaryNavigation: NavGroup[] = [
     ],
   },
   {
-    label: "Research",
-    href: "/research",
-    description: "Research areas, projects, publications.",
-  },
-  {
     label: "Students",
     href: "/students",
     description: "Resources, projects, clubs, opportunities.",
   },
   {
-    label: "Past Questions",
-    href: "/past-questions",
-    description: "Searchable past question papers.",
-  },
-  {
-    label: "News",
-    href: "/news",
-    description: "News and announcements.",
+    label: "Library",
+    href: "/library",
+    description: "News, gallery, research, past questions.",
   },
   {
     label: "Events",
@@ -66,14 +56,16 @@ export const primaryNavigation: NavGroup[] = [
     description: "Departmental events.",
   },
   {
-    label: "Gallery",
-    href: "/gallery",
-    description: "Photo gallery.",
-  },
-  {
-    label: "Contact",
-    href: "/contact",
-    description: "Get in touch.",
+    label: "More",
+    href: "#",
+    description: "Additional links.",
+    children: [
+      { label: "Research", href: "/research", description: "Research areas, projects, publications." },
+      { label: "News", href: "/news", description: "News and announcements." },
+      { label: "Gallery", href: "/gallery", description: "Photo gallery." },
+      { label: "Past Questions", href: "/past-questions", description: "Searchable past question papers." },
+      { label: "Contact", href: "/contact", description: "Get in touch." },
+    ],
   },
 ];
 
