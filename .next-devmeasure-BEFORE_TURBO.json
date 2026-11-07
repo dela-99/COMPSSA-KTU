@@ -1,0 +1,29 @@
+{
+  "serverStartupMs": 10331,
+  "serverReady": true,
+  "homeCold": {
+    "ms": 33055,
+    "status": 200,
+    "bytes": 185788
+  },
+  "libraryCold": {
+    "ms": 4107,
+    "status": 200,
+    "bytes": 185998
+  },
+  "homeWarm": {
+    "ms": 1896,
+    "status": 200,
+    "bytes": 185788
+  },
+  "libraryWarm": {
+    "ms": 2385,
+    "status": 200,
+    "bytes": 185998
+  },
+  "pastQuestions": {
+    "ms": 6397,
+    "status": 200,
+    "bytes": 126358
+  }
+}

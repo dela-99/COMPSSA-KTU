@@ -1,0 +1,8 @@
+{
+  "image_info": [
+    {
+      "url": "https://matrix-internal.oss-us-east-1.aliyuncs.com/user_file_upload_tmp%2F2026-11-07%2F2e3f33b4-903e-46f7-97cd-e6dbf7ec1ca0.jpg?x-oss-credential=LTAI5t9dXq2sLrMZ8f1XfiFZ%2F20261107%2Fus-east-1%2Foss%2Faliyun_v4_request&x-oss-date=20261107T021432Z&x-oss-expires=3600&x-oss-signature=36c1166ff629dd28311878f0366d109c40a91ab16a5401ad58c67e2f4e5f472&x-oss-signature-version=OSS4-HMAC-SHA256",
+      "prompt": "Extract all hex color codes from this image. This appears to be a COMPSSA department color specification document. List every color with its name/label and exact hex code (#RRGGBB format)."
+    }
+  ]
+}

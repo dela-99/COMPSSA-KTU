@@ -15,6 +15,8 @@ type MotionProps = {
  * Reveal — lightweight, performance-first entrance animation.
  * Uses IntersectionObserver and CSS transitions with zero heavy animation dependencies.
  * Fully honors `prefers-reduced-motion`.
+ *
+ * SSR-safe: renders children immediately on server (visible), animates on client.
  */
 export function Reveal({
   children,
@@ -24,13 +26,14 @@ export function Reveal({
   threshold = 0.1,
 }: MotionProps) {
   const [isVisible, setIsVisible] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
+    setMounted(true);
     const el = ref.current;
     if (!el) return;
 
-    // If browser doesn't support IntersectionObserver, reveal immediately
     if (!("IntersectionObserver" in window)) {
       setIsVisible(true);
       return;
@@ -65,6 +68,10 @@ export function Reveal({
     none: "",
   }[direction];
 
+  // On server (mounted=false), render children immediately without animation
+  // On client before intersection, show hidden state; after intersection, reveal
+  const showContent = mounted ? isVisible : true;
+
   return (
     <div
       ref={ref}
@@ -75,7 +82,7 @@ export function Reveal({
       }}
       className={cn(
         "transition-all",
-        isVisible
+        showContent
           ? "opacity-100 translate-x-0 translate-y-0 scale-100"
           : cn("opacity-0", translateClasses),
         className

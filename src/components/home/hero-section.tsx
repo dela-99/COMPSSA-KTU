@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import Link from "next/link";
 import { Container, Reveal } from "@/components/ui";
@@ -35,11 +37,18 @@ const featureCards: FeatureCardItem[] = [
   },
 ];
 
+/**
+ * HeroSection — Department hero with official COMPSSA logo integration.
+ *
+ * Phase 4 updates:
+ *   • Official COMPSSA logo replaces the wreath emblem
+ *   • Slogan: "EVOLUTION IN TECHNOLOGY"
+ *   • Establishment placeholder: "EST. 19XXX"
+ *   • "COMPSSA - KTU" beneath the logo
+ *   • Hierarchy: Logo → Department ID → COMPUTER SCIENCE → Slogan → EST
+ */
 export function HeroSection() {
   return (
-    // The negative offset lets this section slide underneath the floating
-    // glass navigation bar, so the blur reads the campus image through it.
-    // The matching top padding keeps the hero content clear of the bar.
     <section className="relative -mt-[var(--nav-offset)] bg-[#0E1117] text-white pt-[calc(4rem+var(--nav-offset))] pb-28 sm:pt-[calc(6rem+var(--nav-offset))] sm:pb-36 overflow-hidden">
       {/* Background Campus/Architecture Graphic with Atmospheric Overlay */}
       <div className="absolute inset-0 z-0">
@@ -62,50 +71,58 @@ export function HeroSection() {
       </div>
 
       <Container size="wide" className="relative z-10">
-        {/* Top Centered Heraldic Emblem */}
+        {/* Top Centered COMPSSA Identity */}
         <div className="flex flex-col items-center text-center">
           <Reveal delay={100}>
-            <div className="flex flex-col items-center">
-              <div className="relative flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 mb-3">
-                {/* Wreath Emblem */}
+            <div className="flex flex-col items-center gap-3">
+              {/* Official COMPSSA Logo */}
+              <div className="relative flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 mb-2">
+                <img
+                  src="/compssa-logo.png"
+                  alt=""
+                  className="w-full h-full object-contain drop-shadow-lg"
+                  aria-hidden="true"
+                  onError={(e) => {
+                    // Fallback to inline SVG emblem if logo not yet provided
+                    e.currentTarget.style.display = "none";
+                    e.currentTarget.nextElementSibling?.classList.remove("hidden");
+                  }}
+                />
+                {/* Fallback emblem — remove when real logo is supplied */}
                 <svg
+                  className="hidden w-full h-full text-white/90 drop-shadow-md"
                   viewBox="0 0 100 100"
-                  className="w-full h-full text-white/90 drop-shadow-md"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
+                  aria-hidden
                 >
                   <circle cx="50" cy="50" r="42" stroke="white" strokeOpacity="0.4" strokeDasharray="3 3" />
-                  {/* Laurel Wreath */}
-                  <path
-                    d="M30,70 C22,50 25,30 50,20 C75,30 78,50 70,70"
-                    stroke="white"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
+                  <path d="M30,70 C22,50 25,30 50,20 C75,30 78,50 70,70" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
                   <path d="M40,65 L50,45 L60,65" stroke="white" strokeWidth="2" />
                   <path d="M45,55 L55,55" stroke="white" strokeWidth="2" />
-                  {/* Crown / Cap symbol */}
                   <path d="M42,28 L50,22 L58,28 L50,33 Z" fill="white" fillOpacity="0.8" />
                 </svg>
               </div>
 
-              <span className="font-sans text-[0.7rem] sm:text-[0.75rem] font-semibold uppercase tracking-[0.24em] text-white/70">
-                Department of Computer Science
+              {/* COMPSSA - KTU */}
+              <span className="font-sans text-[0.7rem] sm:text-[0.75rem] font-semibold uppercase tracking-[0.24em] text-white/80">
+                COMPSSA - KTU
               </span>
             </div>
           </Reveal>
 
-          {/* Large Editorial Headline */}
+          {/* Large Editorial Headline: COMPUTER SCIENCE */}
           <Reveal delay={200}>
             <h1 className="mt-4 font-serif text-[2.75rem] sm:text-[4rem] lg:text-[4.75rem] leading-[1.04] font-medium tracking-tight text-white max-w-[18ch] drop-shadow-sm">
-              {siteConfig.shortName}
+              {siteConfig.shortName.toUpperCase()}
             </h1>
           </Reveal>
 
+          {/* Updated Slogan + Establishment placeholder */}
           <Reveal delay={300}>
             <p className="mt-3 font-sans text-[0.8125rem] sm:text-[0.9375rem] uppercase tracking-[0.22em] text-white/75 max-w-[40ch]">
-              The Pursuit of Computing Excellence · Est. 19xx
+              EVOLUTION IN TECHNOLOGY · EST. 19XXX
             </p>
           </Reveal>
         </div>

@@ -1,0 +1,22 @@
+
+> compssa-website@0.1.0 dev
+> next dev --port 3312
+
+   ▲ Next.js 15.0.3
+   - Local:        http://localhost:3312
+
+ ✓ Starting...
+ ✓ Ready in 12s
+ ○ Compiling / ...
+ ✓ Compiled / in 29.4s (739 modules)
+ GET / 200 in 36175ms
+ ○ Compiling /library ...
+ ✓ Compiled /library in 29.9s (714 modules)
+ GET /library 200 in 31364ms
+ GET / 200 in 334ms
+ GET /library 200 in 274ms
+ ○ Compiling /past-questions ...
+ ✓ Compiled /past-questions in 2.3s (729 modules)
+ GET /past-questions 200 in 2934ms
+ ✓ Compiled in 9.4s (345 modules)
+[?25h
