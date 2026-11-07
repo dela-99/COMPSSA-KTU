@@ -35,8 +35,14 @@ const config: Config = {
           DEFAULT: "#E2DFD8",
           strong: "#C9C5BB",
         },
+        /* Official COMPSSA Department Colours (Phase 5) */
+        dept: {
+          white: "#FFFFFF",
+          blue: "#2563EB",   // Department blue — secondary, moderate
+          red: "#7A1F1F",    // Department red — restrained accent (burgundy)
+        },
         accent: {
-          DEFAULT: "#7A1F1F", // restrained burgundy — academic, not loud
+          DEFAULT: "#7A1F1F", // restrained burgundy — academic, not loud (dept red)
           soft: "#A33838",
           ink: "#3A0E0E",
         },

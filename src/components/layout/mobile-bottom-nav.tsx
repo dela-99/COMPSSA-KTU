@@ -123,6 +123,14 @@ export function MobileBottomNav() {
   const moreItem = dockNavigation.find((item) => item.href === "#");
   const directItems = dockNavigation.filter((item) => item.href !== "#");
 
+  // Active state resolution (Phase 6 fix):
+  // - When More panel is open, ONLY More is highlighted (takes visual precedence)
+  // - When More panel is closed, route-based active state applies
+  const getItemActive = (href: string) => {
+    if (moreOpen) return false; // No direct item is active when More is open
+    return isRouteActive(pathname, href);
+  };
+
   return (
     <>
       {/* Scrim — dismisses the panel on an outside click. */}
@@ -162,7 +170,7 @@ export function MobileBottomNav() {
         >
           <div className="glass-panel flex items-center justify-between gap-0.5 rounded-full bg-paper/[0.94] p-1.5">
             {directItems.map((item) => {
-              const active = isRouteActive(pathname, item.href);
+              const active = getItemActive(item.href);
               return (
                 <Link
                   key={item.href}
