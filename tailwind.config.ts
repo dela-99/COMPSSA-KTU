@@ -73,6 +73,9 @@ const config: Config = {
         md: "3px",
         lg: "4px",
         xl: "6px",
+        // Card system (Phase 3) — rounded rectangles, not squares, not pills.
+        card: "14px",
+        "card-sm": "9px",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
