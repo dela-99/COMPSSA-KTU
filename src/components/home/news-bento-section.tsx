@@ -22,29 +22,29 @@ export function NewsBentoSection() {
   };
 
   return (
-    <section className="relative bg-[#0F141C] text-white py-20 sm:py-28 overflow-hidden">
+    <section className="relative bg-paper text-ink py-20 sm:py-28 overflow-hidden">
       {/* Background Campus Graphic with Scrim */}
-      <div className="absolute inset-0 z-0 opacity-25">
+        <div className="absolute inset-0 z-0 opacity-[0.08]">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1920&auto=format&fit=crop')`,
           }}
         />
-        <div className="absolute inset-0 bg-[#0F141C]/85" />
+        <div className="absolute inset-0 bg-paper/90" />
       </div>
 
       <Container size="wide" className="relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/15 pb-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-rule pb-6">
           <Reveal>
             <div className="flex items-center gap-3">
-              <span className="inline-block w-3.5 h-3.5 rounded-full bg-[#2563EB] shadow-md shadow-blue-500/50" />
-              <h2 className="font-serif text-[2.25rem] sm:text-[2.75rem] font-medium tracking-tight text-white">
+              <span className="inline-block w-3.5 h-3.5 rounded-full bg-dept-blue shadow-md shadow-dept-blue/50" />
+              <h2 className="font-serif text-[2.25rem] sm:text-[2.75rem] font-medium tracking-tight text-ink">
                 News & Updates.
               </h2>
             </div>
-            <p className="mt-2 font-sans text-[0.875rem] text-white/60 tracking-wide">
+            <p className="mt-2 font-sans text-[0.875rem] text-ink/70 tracking-wide">
               Communication Center · Stories, achievements, research developments, and departmental events.
             </p>
           </Reveal>
@@ -52,7 +52,7 @@ export function NewsBentoSection() {
           <Reveal delay={150}>
             <Link
               href="/news"
-              className="inline-flex items-center gap-1.5 font-sans text-[0.875rem] text-white/80 hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 font-sans text-[0.875rem] text-ink/80 hover:text-dept-blue transition-colors"
             >
               <span>View all news</span>
               <span>→</span>
@@ -78,7 +78,7 @@ export function NewsBentoSection() {
                   {/* Content */}
                   <div className="relative z-10 max-w-[50ch]">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="px-2.5 py-1 rounded-full text-[0.6875rem] font-sans font-bold uppercase tracking-[0.14em] bg-[#2563EB] text-white">
+                      <span className="px-2.5 py-1 rounded-full text-[0.6875rem] font-sans font-bold uppercase tracking-[0.14em] bg-dept-blue text-white">
                         {featured.tag ?? "Announcement"}
                       </span>
                       <span className="font-sans text-[0.75rem] uppercase tracking-[0.12em] text-white/70">
@@ -86,7 +86,7 @@ export function NewsBentoSection() {
                       </span>
                     </div>
 
-                    <h3 className="font-serif text-[1.5rem] sm:text-[1.875rem] font-semibold leading-tight text-white text-balance group-hover:text-blue-200 transition-colors">
+                    <h3 className="font-serif text-[1.5rem] sm:text-[1.875rem] font-semibold leading-tight text-white text-balance group-hover:text-dept-blue transition-colors">
                       {featured.title}
                     </h3>
 
@@ -97,7 +97,7 @@ export function NewsBentoSection() {
                     <div className="mt-5">
                       <Link
                         href={`/news/${featured.slug}`}
-                        className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#2563EB] hover:bg-blue-600 text-white font-sans text-[0.8125rem] font-semibold tracking-wide shadow-lg shadow-blue-900/40 transition-all hover:gap-3"
+                        className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-dept-blue hover:bg-dept-blue/90 text-white font-sans text-[0.8125rem] font-semibold tracking-wide shadow-lg shadow-dept-blue/40 transition-all hover:gap-3"
                       >
                         <span>READ MORE</span>
                         <span>→</span>
@@ -130,7 +130,7 @@ export function NewsBentoSection() {
                         </span>
                       </div>
 
-                      <h4 className="font-serif text-[1.1875rem] font-semibold leading-snug text-white group-hover:text-blue-200 transition-colors">
+                      <h4 className="font-serif text-[1.1875rem] font-semibold leading-snug text-white group-hover:text-dept-blue transition-colors">
                         {secondary.title}
                       </h4>
 
@@ -141,7 +141,7 @@ export function NewsBentoSection() {
                       <div className="mt-4">
                         <Link
                           href={`/news/${secondary.slug}`}
-                          className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 hover:bg-[#2563EB] text-white font-sans text-[0.75rem] font-medium transition-all"
+                          className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 hover:bg-dept-blue text-white font-sans text-[0.75rem] font-medium transition-all"
                         >
                           <span>READ MORE</span>
                           <span>→</span>
@@ -172,7 +172,7 @@ export function NewsBentoSection() {
                         </span>
                       </div>
 
-                      <h4 className="font-serif text-[1.1875rem] font-semibold leading-snug text-white group-hover:text-blue-200 transition-colors">
+                      <h4 className="font-serif text-[1.1875rem] font-semibold leading-snug text-white group-hover:text-dept-blue transition-colors">
                         {tertiary.title}
                       </h4>
 
@@ -183,7 +183,7 @@ export function NewsBentoSection() {
                       <div className="mt-4">
                         <Link
                           href={`/news/${tertiary.slug}`}
-                          className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 hover:bg-[#2563EB] text-white font-sans text-[0.75rem] font-medium transition-all"
+                          className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 hover:bg-dept-blue text-white font-sans text-[0.75rem] font-medium transition-all"
                         >
                           <span>READ MORE</span>
                           <span>→</span>
@@ -201,7 +201,7 @@ export function NewsBentoSection() {
             {/* Top Bulletin / Spotlight Pill */}
             <Reveal delay={150}>
               <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#2563EB]/20 border border-[#2563EB]/40 flex items-center justify-center text-[#2563EB] shrink-0 font-serif font-bold text-sm">
+                <div className="w-10 h-10 rounded-full bg-dept-blue/20 border border-dept-blue/40 text-dept-blue shrink-0 font-serif font-bold text-sm">
                   CS
                 </div>
                 <div className="min-w-0 flex-1">
@@ -222,7 +222,7 @@ export function NewsBentoSection() {
 
             {/* "Join Now | Welcoming New Members" Bright Blue / Accent Card */}
             <Reveal delay={350}>
-              <div className="rounded-xl p-6 bg-[#2563EB] text-white shadow-xl relative overflow-hidden">
+              <div className="rounded-xl p-6 bg-dept-blue text-white shadow-xl relative overflow-hidden">
                 {/* Decorative shape */}
                 <div className="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-white/10 blur-xl pointer-events-none" />
 

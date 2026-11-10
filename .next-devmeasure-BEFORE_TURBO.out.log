@@ -1,0 +1,21 @@
+
+> compssa-website@0.1.0 dev
+> next dev --port 3313 --turbopack
+
+   ▲ Next.js 15.0.3 (Turbopack)
+   - Local:        http://localhost:3313
+
+ ✓ Starting...
+ ✓ Ready in 9.1s
+ ○ Compiling / ...
+ ✓ Compiled / in 18.8s
+ GET / 200 in 24749ms
+ ○ Compiling /library ...
+ ✓ Compiled /library in 2.7s
+ GET /library 200 in 4046ms
+ GET / 200 in 1863ms
+ GET /library 200 in 2382ms
+ ○ Compiling /past-questions ...
+ ✓ Compiled /past-questions in 4.2s
+ GET /past-questions 200 in 6347ms
+[?25h

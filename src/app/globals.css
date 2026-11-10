@@ -9,11 +9,19 @@
 
 @layer base {
   :root {
+    /* Official COMPSSA palette: Sandy Linen, Aegean Sky, Scarlet Bikini. */
+    --brand-linen: 35.294 34.694% 90.392%;       /* #EFE8DE */
+    --brand-blue: 209.610 77.778% 38.824%;       /* #1664B0 */
+    --brand-scarlet: 355.532 81.034% 45.490%;     /* #D21624 */
+    --color-white: 0 0% 100%;
+    --color-blue: var(--brand-blue);
+    --color-red: var(--brand-scarlet);
+
     /* Existing tokens (HSL versions of our editorial palette) */
-    --background: 60 20% 98%;            /* paper #FAFAF7 */
+    --background: var(--brand-linen);
     --foreground: 60 5% 4%;              /* ink #0B0B0A */
-    --rule: 36 16% 87%;                  /* hairline #E2DFD8 */
-    --accent: 0 60% 30%;                 /* burgundy #7A1F1F */
+    --rule: 36 20% 78%;
+    --accent: var(--brand-scarlet);
 
     /*
       Space reserved by the fixed chrome at the top of every page.
@@ -35,18 +43,18 @@
     --dock-offset: 84px;
 
     /* shadcn-aligned semantic tokens (kept in our palette) */
-    --border: 36 16% 87%;
-    --input: 36 16% 87%;
+    --border: 36 20% 78%;
+    --input: 36 20% 78%;
     --ring: 60 5% 4%;
-    --secondary: 36 18% 92%;             /* paper-warm */
+    --secondary: 36 30% 95%;
     --secondary-foreground: 60 5% 4%;
-    --muted: 36 18% 92%;
+    --muted: 36 30% 95%;
     --muted-foreground: 60 3% 42%;
-    --destructive: 0 60% 30%;
+    --destructive: var(--brand-scarlet);
     --destructive-foreground: 60 20% 98%;
-    --popover: 60 20% 98%;
+    --popover: var(--brand-linen);
     --popover-foreground: 60 5% 4%;
-    --card: 60 20% 98%;
+    --card: var(--brand-linen);
     --card-foreground: 60 5% 4%;
 
     /*
@@ -328,6 +336,36 @@
 }
 
 @layer utilities {
+  /* =========================================================================
+     Official COMPSSA Department Colour Utilities
+     Sandy Linen — dominant | Aegean Sky — secondary | Scarlet Bikini — accent
+     ========================================================================= */
+  .dept-white { color: hsl(var(--color-white)); }
+  .bg-dept-white { background-color: hsl(var(--color-white)); }
+  .border-dept-white { border-color: hsl(var(--color-white)); }
+
+  .dept-blue { color: hsl(var(--color-blue)); }
+  .bg-dept-blue { background-color: hsl(var(--color-blue)); }
+  .border-dept-blue { border-color: hsl(var(--color-blue)); }
+  .hover\:bg-dept-blue:hover { background-color: hsl(var(--color-blue) / 0.9); }
+  .hover\:text-dept-blue:hover { color: hsl(var(--color-blue)); }
+  .focus\:ring-dept-blue:focus { --tw-ring-color: hsl(var(--color-blue)); }
+
+  .dept-red { color: hsl(var(--color-red)); }
+  .bg-dept-red { background-color: hsl(var(--color-red)); }
+  .border-dept-red { border-color: hsl(var(--color-red)); }
+  .hover\:bg-dept-red:hover { background-color: hsl(var(--color-red) / 0.9); }
+  .hover\:text-dept-red:hover { color: hsl(var(--color-red)); }
+  .focus\:ring-dept-red:focus { --tw-ring-color: hsl(var(--color-red)); }
+
+  /* Active state utilities for navigation — single source of truth */
+  .nav-active {
+    @apply bg-dept-red/10 text-dept-red;
+  }
+  .nav-inactive {
+    @apply text-ink-muted hover:bg-paper-warm/70 hover:text-ink;
+  }
+
   /* Respect users who prefer reduced motion. */
   @media (prefers-reduced-motion: reduce) {
     *,

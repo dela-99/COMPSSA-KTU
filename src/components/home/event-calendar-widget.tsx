@@ -119,8 +119,8 @@ export function EventCalendarWidget({ className }: { className?: string }) {
               }}
               className={cn(
                 "relative h-7 w-7 mx-auto flex items-center justify-center rounded-full transition-all text-[0.75rem]",
-                dayEvent ? "font-bold text-white bg-[#2563EB] hover:bg-blue-700 shadow-sm" : "text-ink hover:bg-paper-warm",
-                isSelected && "ring-2 ring-offset-1 ring-[#2563EB]"
+                dayEvent ? "font-bold text-white bg-dept-blue hover:bg-dept-blue/90 shadow-sm" : "text-ink hover:bg-paper-warm",
+                isSelected && "ring-2 ring-offset-1 ring-dept-blue"
               )}
             >
               <span>{day}</span>
@@ -158,7 +158,7 @@ export function EventCalendarWidget({ className }: { className?: string }) {
           View all events →
         </Link>
         <div className="flex items-center gap-1.5">
-          <span className="inline-block w-2 h-2 rounded-full bg-[#2563EB]" />
+          <span className="inline-block w-2 h-2 rounded-full bg-dept-blue" />
           <span className="text-[0.6875rem]">Event day</span>
         </div>
       </div>

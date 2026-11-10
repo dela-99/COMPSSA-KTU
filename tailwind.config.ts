@@ -27,18 +27,24 @@ const config: Config = {
           subtle: "#6B6B66",
         },
         paper: {
-          DEFAULT: "#FAFAF7",
-          warm: "#F4F2EC",
-          edge: "#E8E5DD",
+          DEFAULT: "hsl(var(--brand-linen) / <alpha-value>)",
+          warm: "hsl(var(--secondary) / <alpha-value>)",
+          edge: "hsl(var(--rule) / <alpha-value>)",
         },
         rule: {
-          DEFAULT: "#E2DFD8",
-          strong: "#C9C5BB",
+          DEFAULT: "hsl(var(--rule) / <alpha-value>)",
+          strong: "hsl(var(--rule) / <alpha-value>)",
+        },
+        /* Official COMPSSA brand colors, centralized in globals.css. */
+        dept: {
+          white: "#FFFFFF",
+          blue: "hsl(var(--brand-blue) / <alpha-value>)",
+          red: "hsl(var(--brand-scarlet) / <alpha-value>)",
         },
         accent: {
-          DEFAULT: "#7A1F1F", // restrained burgundy — academic, not loud
-          soft: "#A33838",
-          ink: "#3A0E0E",
+          DEFAULT: "hsl(var(--brand-scarlet) / <alpha-value>)",
+          soft: "hsl(var(--brand-scarlet) / 0.82)",
+          ink: "hsl(var(--brand-scarlet) / 0.7)",
         },
         // shadcn-compatible semantic tokens (kept aligned with our editorial palette).
         border: "hsl(var(--border))",
