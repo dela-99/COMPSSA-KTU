@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SectionPlaceholder, makeMetadata } from "@/components/layout/section-placeholder";
+import { NewsletterSignup } from "@/components/public";
 
 export const metadata: Metadata = makeMetadata(
   "Students",
@@ -19,6 +20,9 @@ export default function StudentsPage() {
         <li>· Clubs</li>
         <li>· Opportunities</li>
       </ul>
+      <div className="mt-10">
+        <NewsletterSignup />
+      </div>
     </SectionPlaceholder>
   );
 }

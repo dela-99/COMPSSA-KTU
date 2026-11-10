@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import {
   Container,
   Section,
@@ -278,29 +277,6 @@ export default function LibraryPage() {
         </Container>
       </Section>
 
-      {/*
-        A quiet closing band that repeats the destination set as plain links.
-        It guarantees every destination stays reachable even if the cards
-        above are being edited, and it keeps the page useful without a
-        hover interaction.
-      */}
-      <Section spacing="tight" rule tone="warm">
-        <Container size="wide">
-          <ul className="flex flex-wrap items-center gap-x-8 gap-y-3">
-            {libraryDestinations.map((destination) => (
-              <li key={destination.href}>
-                <Link
-                  href={destination.href}
-                  className="group inline-flex items-center gap-2 font-sans text-[0.875rem] text-ink-muted transition-colors hover:text-accent"
-                >
-                  <span className="h-1 w-1 rounded-full bg-rule-strong transition-colors group-hover:bg-accent" />
-                  {destination.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </Section>
     </>
   );
 }

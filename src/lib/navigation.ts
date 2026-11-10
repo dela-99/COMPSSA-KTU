@@ -5,11 +5,9 @@
  * Keep this file the single source of truth — pages should reference these labels,
  * not hardcode titles.
  *
- * Architecture (UI refinement, Phase 1–2):
+ * Architecture:
  *
- *   SiteHeader  → identity only (crest, name, faculty label, Portal button).
- *                  Plain editorial bar, no glass.
- *   Desktop nav → floating glass pill beneath the identity bar.
+ *   SiteHeader  → centred floating desktop navigation, no public admin link.
  *   Mobile dock → floating glass dock pinned to the bottom edge.
  *
  * Both navigations read the SAME destination set, so the information
@@ -77,12 +75,6 @@ export const moreLinks: NavLink[] = [
     description: "Get in touch.",
     icon: "contact",
   },
-  {
-    label: "Portal",
-    href: "/admin",
-    description: "Department staff and admin portal.",
-    icon: "portal",
-  },
 ];
 
 /**
@@ -114,6 +106,12 @@ export const primaryNavigation: NavGroup[] = [
         description: "Course catalogue by level.",
         icon: "academics",
       },
+      {
+        label: "Academic Resources",
+        href: "/library",
+        description: "Research, past questions, news, and gallery resources.",
+        icon: "library",
+      },
     ],
   },
   {
@@ -135,9 +133,15 @@ export const primaryNavigation: NavGroup[] = [
         icon: "people",
       },
       {
-        label: "Executives",
+        label: "Student Executives",
         href: "/people/executives",
         description: "Current and past student executives.",
+        icon: "people",
+      },
+      {
+        label: "Executive History",
+        href: "/people/executives#executive-history",
+        description: "Past student executive councils by academic year.",
         icon: "people",
       },
     ],
@@ -212,19 +216,15 @@ export const footerNavigation: NavGroup[] = [
     href: "/about",
     children: [
       { label: "About", href: "/about" },
-      { label: "History", href: "/about/history" },
-      { label: "Mission & Vision", href: "/about/mission" },
-      { label: "HOD History", href: "/about/hod-history" },
     ],
   },
   {
-    label: "Academic",
+    label: "Academics",
     href: "/academics",
     children: [
       { label: "Programmes", href: "/academics/programmes" },
       { label: "Courses", href: "/academics/courses" },
       { label: "Past Questions", href: "/past-questions" },
-      { label: "Academic Resources", href: "/academics/resources" },
     ],
   },
   {
@@ -232,10 +232,8 @@ export const footerNavigation: NavGroup[] = [
     href: "/people",
     children: [
       { label: "People", href: "/people" },
-      { label: "Alumni", href: "/alumni" },
       { label: "News", href: "/news" },
       { label: "Events", href: "/events" },
-      { label: "Feedback", href: "/feedback" },
     ],
   },
 ];

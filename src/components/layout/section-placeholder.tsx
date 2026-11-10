@@ -6,14 +6,12 @@ import {
   Heading,
   Prose,
   Divider,
-  Badge,
 } from "@/components/ui";
 
 type Props = {
   eyebrow: string;
   title: string;
   description: string;
-  status?: "in-progress" | "planned";
   children?: React.ReactNode;
 };
 
@@ -26,20 +24,16 @@ export function SectionPlaceholder({
   eyebrow,
   title,
   description,
-  status = "in-progress",
   children,
 }: Props) {
   return (
     <Section spacing="loose">
       <Container size="narrow">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <div className="mt-3 flex items-center gap-3">
+        <div className="mt-3">
           <Heading as="h1" size="display" className="text-balance">
             {title}
           </Heading>
-          <Badge tone={status === "planned" ? "muted" : "default"}>
-            {status === "planned" ? "Planned" : "In progress"}
-          </Badge>
         </div>
         <Prose className="mt-8">
           <p>{description}</p>

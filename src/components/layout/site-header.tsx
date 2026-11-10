@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-import { siteConfig } from "@/lib/site";
 import { primaryNavigation } from "@/lib/navigation";
 import { Nav } from "./nav";
 import { MobileBottomNav } from "./mobile-bottom-nav";
@@ -15,17 +13,14 @@ import { cn } from "@/lib/utils";
  * Phase 2+3:
  *   • Removed the static identity header entirely.
  *   • The floating glass pill is now the ONLY top navigation on desktop.
- *   • An isolated "Admin Login" button sits to the right of the pill,
- *     visually secondary and clearly separate from the main navigation.
- *   • Both hide on scroll-down and return on scroll-up (with hysteresis).
+ *   • The primary pill is centred relative to the viewport.
+ *   • It hides on scroll-down and returns on scroll-up (with hysteresis).
  *   • The reserved space stays constant so no layout shift occurs.
  */
 export function SiteHeader() {
   const [scrolled, setScrolled] = React.useState(false);
   const [navHovered, setNavHovered] = React.useState(false);
   const [navFocusWithin, setNavFocusWithin] = React.useState(false);
-  const [adminHovered, setAdminHovered] = React.useState(false);
-  const [adminFocusWithin, setAdminFocusWithin] = React.useState(false);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -38,11 +33,6 @@ export function SiteHeader() {
   // keyboard focus, and while one of its panels is open.
   const navHidden = useScrollVisibility({
     pinned: navHovered || navFocusWithin,
-  });
-
-  // Admin login button uses its own visibility logic (pinned on hover/focus)
-  const adminHidden = useScrollVisibility({
-    pinned: adminHovered || adminFocusWithin,
   });
 
   return (
@@ -62,13 +52,15 @@ export function SiteHeader() {
           }}
         >
           <div className="px-5 pt-3 lg:px-6">
-            <div className="pointer-events-auto mx-auto flex items-center justify-between gap-4 max-w-[1320px]">
-              {/* Main navigation pill */}
-              <div className="w-fit">
+            <div className="pointer-events-none relative mx-auto h-11 max-w-[1320px]">
+              {/* Viewport-centred pill with no neighboring control to shift it. */}
+              <div
+                className="pointer-events-auto absolute left-1/2 top-0 w-max -translate-x-1/2"
+              >
                 <div
                   className={cn(
-                    "glass-nav relative rounded-full transition-colors duration-300 ease-editorial",
-                    scrolled ? "glass-nav-scrolled bg-paper/[0.92]" : "bg-paper/[0.8]",
+                    "glass-nav glass-nav-surface relative rounded-full transition-colors duration-300 ease-editorial",
+                    scrolled && "glass-nav-scrolled",
                   )}
                 >
                   <div className="px-2 py-1.5">
@@ -77,34 +69,6 @@ export function SiteHeader() {
                 </div>
               </div>
 
-              {/* Isolated Admin Login — visually secondary, separate from main nav */}
-              <div className="shrink-0">
-                <div
-                  className={cn(
-                    "glass-nav relative rounded-full transition-colors duration-300 ease-editorial",
-                    adminHidden ? "opacity-0 pointer-events-none" : "opacity-100",
-                    scrolled
-                      ? "glass-nav-scrolled bg-paper/[0.92]"
-                      : "bg-paper/[0.72]",
-                  )}
-                  onPointerEnter={() => setAdminHovered(true)}
-                  onPointerLeave={() => setAdminHovered(false)}
-                  onFocusCapture={() => setAdminFocusWithin(true)}
-                  onBlurCapture={(event) => {
-                    if (!event.currentTarget.contains(event.relatedTarget as Node)) {
-                      setAdminFocusWithin(false);
-                    }
-                  }}
-                >
-                  <Link
-                    href="/admin"
-                    className="inline-flex h-9 items-center rounded-full border border-rule-strong/60 px-3.5 font-sans text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-ink-muted transition-colors hover:border-ink hover:text-ink"
-                    aria-label="Admin login"
-                  >
-                    Admin Login
-                  </Link>
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -130,7 +130,7 @@ function DesktopNavItem({
   const isActive =
     pathname === item.href ||
     (item.href !== "/" && pathname.startsWith(item.href + "/")) ||
-    item.children?.some((c) => pathname === c.href);
+    item.children?.some((c) => pathname === c.href.split("#")[0]);
 
   const hasChildren = !!item.children?.length;
   /** "More" has no page of its own — it is a menu trigger only. */
@@ -212,6 +212,7 @@ function DesktopNavItem({
 
   const triggerClasses = cn(
     "relative inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1.5 font-sans text-[0.8125rem] transition-colors duration-150 xl:px-3 xl:text-[0.875rem]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dept-blue focus-visible:ring-offset-2",
     "after:absolute after:bottom-0.5 after:left-2.5 after:right-2.5 after:h-px after:bg-accent after:opacity-0 after:transition-opacity after:duration-150",
     isActive || open
       ? "text-ink font-semibold after:opacity-100"
@@ -222,8 +223,12 @@ function DesktopNavItem({
     <li
       ref={navRef}
       className="relative"
-      onMouseEnter={hasChildren ? openNow : undefined}
-      onMouseLeave={hasChildren ? closeSoon : undefined}
+      onPointerEnter={(event) => {
+        if (event.pointerType === "mouse" && hasChildren && !isMenuOnly) openNow();
+      }}
+      onPointerLeave={(event) => {
+        if (event.pointerType === "mouse" && hasChildren && !isMenuOnly) closeSoon();
+      }}
     >
       {isMenuOnly ? (
         <button
@@ -263,7 +268,7 @@ function DesktopNavItem({
               aria-controls={panelId}
               onClick={() => setOpen((v) => !v)}
               onKeyDown={onTriggerKeyDown}
-              className="-ml-1 inline-flex h-6 w-5 items-center justify-center rounded-full text-ink-subtle transition-colors hover:text-ink"
+              className="-ml-1 inline-flex h-6 w-5 items-center justify-center rounded-full text-ink-subtle transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dept-blue"
             >
               <span className="sr-only">{`Show ${item.label} section`}</span>
               <IconChevronDown
@@ -297,7 +302,7 @@ function DesktopNavItem({
           <div className="glass-panel rounded-2xl bg-paper/[0.94] p-2">
             <ul className="space-y-0.5">
               {item.children!.map((child) => {
-                const isChildActive = pathname === child.href;
+                const isChildActive = pathname === child.href.split("#")[0];
                 return (
                   <li key={child.href}>
                     <Link
@@ -308,7 +313,7 @@ function DesktopNavItem({
                         onNavigate?.();
                       }}
                       className={cn(
-                        "group/item flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150",
+                        "group/item flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dept-blue",
                         isChildActive
                           ? "bg-paper-warm text-accent"
                           : "text-ink-soft hover:bg-paper-warm hover:text-ink",

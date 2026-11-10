@@ -12,7 +12,6 @@ export default function AboutPage() {
       eyebrow="About"
       title="History, mission, and structure."
       description="The About section is the institutional narrative of the department — its history, mission and vision, and how the department is organised. This page is being prepared for Phase 2."
-      status="in-progress"
     >
       <ul className="space-y-2">
         <li>· History</li>

@@ -12,7 +12,7 @@ export function AboutFeatureSection() {
   const currentHOD = getCurrentHOD();
 
   return (
-    <section className="relative border-t border-rule bg-paper text-ink py-20 sm:py-28 overflow-hidden">
+    <section className="relative border-t border-rule bg-paper text-ink pt-20 pb-12 sm:pt-28 sm:pb-16 overflow-hidden">
       <Container size="wide">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Editorial Department Introduction */}

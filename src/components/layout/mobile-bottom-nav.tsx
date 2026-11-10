@@ -19,8 +19,8 @@ import { useScrollVisibility } from "@/hooks/use-scroll-visibility";
  *   • Real safe-area insets are honoured on all four edges — the notch and
  *     the home indicator no longer overlap the dock.
  *   • Touch targets are at least 48×48px.
- *   • The dock hides when the page scrolls down and returns when the user
- *     scrolls back up, with a hysteresis threshold so it never flickers.
+ *   • It hides while scrolling up and returns while scrolling down or after
+ *     scrolling stops, with hysteresis to avoid jitter.
  *   • It stays visible while it is being interacted with, while the More
  *     panel is open, while it holds keyboard focus, at the top of the page,
  *     and at the very end of the document.
@@ -112,6 +112,9 @@ export function MobileBottomNav() {
 
   // The dock must not disappear while the user is using it.
   const hidden = useScrollVisibility({
+    hideDirection: "up",
+    showAfterIdleMs: 500,
+    threshold: 18,
     pinned: moreOpen || hovered || focusWithin,
   });
 
@@ -122,6 +125,11 @@ export function MobileBottomNav() {
 
   const moreItem = dockNavigation.find((item) => item.href === "#");
   const directItems = dockNavigation.filter((item) => item.href !== "#");
+  const moreRouteActive = Boolean(
+    moreItem?.children?.some((item) =>
+      isRouteActive(pathname, item.href.split("#")[0] ?? item.href),
+    ),
+  );
 
   // Active state resolution (Phase 6 fix):
   // - When More panel is open, ONLY More is highlighted (takes visual precedence)
@@ -199,10 +207,11 @@ export function MobileBottomNav() {
                 onClick={() => setMoreOpen((v) => !v)}
                 aria-expanded={moreOpen}
                 aria-controls="more-panel"
+                aria-current={moreRouteActive && !moreOpen ? "page" : undefined}
                 aria-label={moreOpen ? "Close more options" : "More options"}
                 className={cn(
                   "flex min-h-12 flex-1 flex-col items-center justify-center gap-1 rounded-full px-1 py-1.5 transition-colors duration-150",
-                  moreOpen
+                  moreOpen || moreRouteActive
                     ? "bg-accent/10 text-accent"
                     : "text-ink-muted hover:bg-paper-warm/70 hover:text-ink",
                 )}

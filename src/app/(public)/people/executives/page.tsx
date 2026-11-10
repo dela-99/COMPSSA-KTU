@@ -71,35 +71,37 @@ export default function ExecutivesPage() {
 
       <Section spacing="default" tone="warm" rule>
         <Container size="wide">
-          <Eyebrow>Executive history</Eyebrow>
-          <Heading as="h2" size="lg" className="mt-3 max-w-[24ch]">
-            Previous councils.
-          </Heading>
-          <p className="mt-4 font-sans text-[0.9375rem] text-ink-muted max-w-[60ch]">
-            Browse any academic year to view the executive council that served.
-          </p>
-          <ul className="mt-10 divide-y divide-rule border-y border-rule">
-            {past.map((t) => (
-              <li key={t.id}>
-                <Link
-                  href={`/people/executives/history/${academicYearToSlug(t.academicYear)}`}
-                  className="group flex items-center justify-between gap-6 py-5"
-                >
-                  <div>
-                    <p className="font-serif text-[1.25rem] text-ink group-hover:text-accent transition-colors">
-                      {t.academicYear}
-                    </p>
-                    <p className="mt-1 font-sans text-[0.875rem] text-ink-muted">
-                      {t.members.length} members
-                    </p>
-                  </div>
-                  <span className="font-sans text-[0.875rem] text-ink-subtle">
-                    View →
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div id="executive-history" className="scroll-mt-24">
+            <Eyebrow>Executive history</Eyebrow>
+            <Heading as="h2" size="lg" className="mt-3 max-w-[24ch]">
+              Previous councils.
+            </Heading>
+            <p className="mt-4 font-sans text-[0.9375rem] text-ink-muted max-w-[60ch]">
+              Browse any academic year to view the executive council that served.
+            </p>
+            <ul className="mt-10 divide-y divide-rule border-y border-rule">
+              {past.map((t) => (
+                <li key={t.id}>
+                  <Link
+                    href={`/people/executives/history/${academicYearToSlug(t.academicYear)}`}
+                    className="group flex items-center justify-between gap-6 py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dept-blue"
+                  >
+                    <div>
+                      <p className="font-serif text-[1.25rem] text-ink group-hover:text-accent transition-colors">
+                        {t.academicYear}
+                      </p>
+                      <p className="mt-1 font-sans text-[0.875rem] text-ink-muted">
+                        {t.members.length} members
+                      </p>
+                    </div>
+                    <span className="font-sans text-[0.875rem] text-ink-subtle">
+                      View →
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </Container>
       </Section>
     </>

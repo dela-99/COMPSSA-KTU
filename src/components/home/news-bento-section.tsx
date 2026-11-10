@@ -22,7 +22,7 @@ export function NewsBentoSection() {
   };
 
   return (
-    <section className="relative bg-paper text-ink py-20 sm:py-28 overflow-hidden">
+    <section className="relative bg-paper text-ink pt-10 pb-14 sm:pt-14 sm:pb-20 overflow-hidden">
       {/* Background Campus Graphic with Scrim */}
         <div className="absolute inset-0 z-0 opacity-[0.08]">
         <div
@@ -67,7 +67,7 @@ export function NewsBentoSection() {
             {/* Top Large Featured Card */}
             {featured && (
               <Reveal delay={100}>
-                <div className="group relative rounded-2xl overflow-hidden border border-white/15 bg-[#161D27] min-h-[300px] sm:min-h-[340px] flex flex-col justify-end p-6 sm:p-8 shadow-2xl transition-all duration-300 hover:border-white/30">
+                <div className="interactive-media-card group relative rounded-2xl overflow-hidden border border-white/15 bg-[#161D27] min-h-[300px] sm:min-h-[340px] flex flex-col justify-end p-6 sm:p-8 shadow-2xl transition-all duration-300 hover:border-white/30">
                   {/* Background Image */}
                   <div
                     className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-45"
@@ -113,7 +113,7 @@ export function NewsBentoSection() {
               {/* Secondary Card */}
               {secondary && (
                 <Reveal delay={200}>
-                  <div className="group relative rounded-2xl overflow-hidden border border-white/15 bg-[#161D27] min-h-[320px] flex flex-col justify-end p-6 shadow-xl transition-all duration-300 hover:border-white/30">
+                  <div className="interactive-media-card group relative rounded-2xl overflow-hidden border border-white/15 bg-[#161D27] min-h-[320px] flex flex-col justify-end p-6 shadow-xl transition-all duration-300 hover:border-white/30">
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-40"
                       style={{ backgroundImage: `url('${cardImages.secondary}')` }}
@@ -155,7 +155,7 @@ export function NewsBentoSection() {
               {/* Tertiary Card */}
               {tertiary && (
                 <Reveal delay={300}>
-                  <div className="group relative rounded-2xl overflow-hidden border border-white/15 bg-[#161D27] min-h-[320px] flex flex-col justify-end p-6 shadow-xl transition-all duration-300 hover:border-white/30">
+                  <div className="interactive-media-card group relative rounded-2xl overflow-hidden border border-white/15 bg-[#161D27] min-h-[320px] flex flex-col justify-end p-6 shadow-xl transition-all duration-300 hover:border-white/30">
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-40"
                       style={{ backgroundImage: `url('${cardImages.tertiary}')` }}
@@ -205,11 +205,11 @@ export function NewsBentoSection() {
                   CS
                 </div>
                 <div className="min-w-0 flex-1">
-                  <span className="font-sans text-[0.6875rem] uppercase tracking-[0.14em] text-white/50 block">
-                    Latest Bulletin
+          <span className="font-sans text-[0.6875rem] uppercase tracking-[0.14em] text-white/70 block">
+                    Latest
                   </span>
                   <p className="font-serif text-[0.875rem] font-medium text-white truncate">
-                    Academic calendar & tutorial schedules live
+                    Academic Calendar · Tutorial Schedule
                   </p>
                 </div>
               </div>

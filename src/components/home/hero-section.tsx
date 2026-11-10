@@ -45,22 +45,24 @@ const featureCards: FeatureCardItem[] = [
  *   • Official COMPSSA logo replaces the wreath emblem
  *   • Slogan: "EVOLUTION IN TECHNOLOGY"
  *   • Establishment placeholder: "EST. 19XXX"
- *   • "COMPSSA - KTU" beneath the logo
- *   • Hierarchy: Logo → Department ID → COMPUTER SCIENCE → Slogan → EST
+ *   • Koforidua Technical University and department identity near the logo
+ *   • Hierarchy: Logo → Institution → Department → COMPSSA KTU → Slogan → EST
  */
 export function HeroSection() {
   return (
     <section className="relative -mt-[var(--nav-offset)] bg-[#0E1117] text-white pt-[calc(4rem+var(--nav-offset))] pb-28 sm:pt-[calc(6rem+var(--nav-offset))] sm:pb-36 overflow-hidden">
       {/* Background Campus/Architecture Graphic with Atmospheric Overlay */}
-      <div className="absolute inset-0 z-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-30 transform scale-105 transition-transform duration-1000"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1920&auto=format&fit=crop')`,
-          }}
+      <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <Image
+          src="/images/ktu-building.jpeg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[center_68%] sm:object-[center_62%]"
         />
-        {/* Editorial gradient scrim */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0D13]/90 via-[#0B0D13]/70 to-[#0B0D13]" />
+        {/* Preserve the campus detail while keeping white identity text legible. */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0D13]/55 via-[#0B0D13]/60 to-[#0B0D13]/80" />
         {/* Subtle grid pattern overlay */}
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -77,7 +79,7 @@ export function HeroSection() {
           <Reveal delay={100}>
             <div className="flex flex-col items-center gap-3">
               {/* Official COMPSSA Logo */}
-              <div className="mb-2 flex h-24 w-24 items-center justify-center rounded-xl bg-white p-2.5 shadow-xl sm:h-28 sm:w-28 sm:p-3">
+              <div className="glass-logo mb-2 flex h-28 w-28 items-center justify-center rounded-2xl p-3 sm:h-36 sm:w-36 sm:p-4">
                 <Image
                   src="/compssa-logo.png"
                   alt="COMPSSA official logo"
@@ -88,9 +90,9 @@ export function HeroSection() {
                 />
               </div>
 
-              {/* COMPSSA - KTU */}
+              {/* Institution and department identity */}
               <span className="font-sans text-[0.7rem] sm:text-[0.75rem] font-semibold uppercase tracking-[0.24em] text-white">
-                COMPSSA - KTU
+                Koforidua Technical University
               </span>
               <span className="font-sans text-[0.7rem] sm:text-[0.75rem] font-semibold uppercase tracking-[0.18em] text-white/80">
                 Department of Computer Science
@@ -98,7 +100,7 @@ export function HeroSection() {
             </div>
           </Reveal>
 
-          {/* Large Editorial Headline: COMPUTER SCIENCE */}
+          {/* Primary COMPSSA identity */}
           <Reveal delay={200}>
             <h1 className="mt-4 font-serif text-[2.75rem] sm:text-[4rem] lg:text-[4.75rem] leading-[1.04] font-medium tracking-tight text-white max-w-[18ch] drop-shadow-sm">
               {siteConfig.shortName.toUpperCase()}
@@ -107,9 +109,14 @@ export function HeroSection() {
 
           {/* Updated Slogan + Establishment placeholder */}
           <Reveal delay={300}>
-            <p className="mt-3 font-sans text-[0.8125rem] sm:text-[0.9375rem] uppercase tracking-[0.22em] text-white/75 max-w-[40ch]">
-              EVOLUTION IN TECHNOLOGY · EST. 19XXX
-            </p>
+            <div className="mt-3 space-y-1.5 font-sans uppercase text-white/80">
+              <p className="text-[0.75rem] sm:text-[0.875rem] tracking-[0.22em]">
+                EVOLUTION IN TECHNOLOGY
+              </p>
+              <p className="text-[0.625rem] sm:text-[0.6875rem] tracking-[0.2em] text-white/65">
+                EST. 19XXX
+              </p>
+            </div>
           </Reveal>
         </div>
 
@@ -119,7 +126,7 @@ export function HeroSection() {
             <Reveal key={card.title} delay={350 + idx * 100}>
               <Link
                 href={card.href}
-                className="group relative flex flex-col h-full bg-[#161B22]/85 hover:bg-[#1E242E] backdrop-blur-md border border-white/10 hover:border-white/25 rounded-lg p-6 sm:p-7 transition-all duration-300 shadow-xl hover:-translate-y-1"
+                className="hero-glass-card group relative flex h-full flex-col rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0E1117] sm:p-7"
               >
                 <div className="flex items-start gap-4">
                   {/* Icon */}
@@ -146,17 +153,17 @@ export function HeroSection() {
                     <span className="block font-sans text-[0.75rem] font-bold uppercase tracking-[0.14em] text-white/80 group-hover:text-white">
                       {card.title}
                     </span>
-                    <span className="block text-[0.8125rem] text-white/50 font-serif mt-0.5">
+                    <span className="block text-[0.8125rem] text-white/70 font-serif mt-0.5">
                       {card.subtitle}
                     </span>
                   </div>
                 </div>
 
-                <p className="mt-4 font-sans text-[0.875rem] leading-relaxed text-white/70 flex-1">
+                <p className="mt-4 font-sans text-[0.875rem] leading-relaxed text-white/80 flex-1">
                   {card.description}
                 </p>
 
-                <div className="mt-5 pt-3 border-t border-white/10 flex items-center justify-between text-[0.8125rem] text-white/60 group-hover:text-white transition-colors">
+                <div className="mt-5 pt-3 border-t border-white/15 flex items-center justify-between text-[0.8125rem] text-white/80 group-hover:text-white transition-colors">
                   <span>Explore detail</span>
                   <span>→</span>
                 </div>

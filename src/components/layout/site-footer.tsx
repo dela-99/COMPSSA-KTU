@@ -1,190 +1,85 @@
+import Image from "next/image";
 import Link from "next/link";
-import { siteConfig } from "@/lib/site";
+import { Container, Eyebrow } from "@/components/ui";
 import { footerNavigation } from "@/lib/navigation";
-import { Container, Divider, Eyebrow } from "@/components/ui";
+import { siteConfig } from "@/lib/site";
 
-/**
- * SiteFooter — Editorial, warm linen footer with multi-column
- * navigation, department crest, contact information, and social links.
- */
+/** Compact department identity, useful routes, configured socials and attribution. */
 export function SiteFooter() {
+  const socialLinks = siteConfig.socialLinks.filter(({ href }) =>
+    /^https:\/\/(www\.)?(tiktok\.com|linkedin\.com)\//i.test(href),
+  );
+
   return (
-    <footer className="relative mt-20 border-t border-rule bg-paper text-ink overflow-hidden">
-      <Container size="wide">
-        <div className="grid grid-cols-1 gap-12 py-16 sm:grid-cols-2 lg:grid-cols-12">
-          {/* Department Branding & Socials */}
-          <div className="lg:col-span-4 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-3">
-                <FooterCrest />
-                <div>
-                  <h3 className="font-serif text-[1.125rem] font-semibold text-ink leading-tight">
-                    {siteConfig.name}
-                  </h3>
-                  <p className="font-sans text-[0.7rem] uppercase tracking-[0.16em] text-ink/60">
-                    Faculty of Science
-                  </p>
-                </div>
+    <footer className="relative mt-12 overflow-hidden bg-dept-blue text-white sm:mt-16">
+      <Container size="wide" className="py-6 sm:py-9">
+        <div className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3 sm:gap-8 lg:grid-cols-4">
+          <div className="col-span-2 flex flex-row items-center justify-between gap-3 sm:col-span-1 sm:flex-col sm:items-start sm:justify-start sm:gap-4">
+            <div className="flex items-center gap-3">
+              <div className="footer-logo flex h-12 w-12 shrink-0 items-center justify-center rounded-xl p-1.5">
+                <Image src="/compssa-logo.png" alt="" width={447} height={447} className="h-full w-full object-contain" />
               </div>
+              <div>
+                <p className="font-sans text-[0.625rem] font-medium uppercase tracking-[0.15em] text-white/75">Department of Computer Science</p>
+                <p className="mt-1 font-serif text-lg font-semibold leading-tight">COMPSSA - KTU</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {socialLinks.map((social) => <FooterSocialDot key={social.label} {...social} />)}
+            </div>
+          </div>
 
-              <p className="mt-4 font-serif text-[0.95rem] leading-relaxed text-ink/75 max-w-[34ch]">
-                {siteConfig.tagline}
-              </p>
-
-              <div className="mt-6 flex items-center gap-2 text-ink/80">
-                {siteConfig.socialLinks.map((social) => (
-                  <FooterSocialDot key={social.label} {...social} />
+          {footerNavigation.map((group) => (
+            <div key={group.label}>
+              <Eyebrow className="text-white/75">{group.label}</Eyebrow>
+              <ul className="mt-2.5 space-y-1.5 sm:mt-3 sm:space-y-2">
+                {group.children?.map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href} className="font-sans text-xs text-white/90 transition-colors hover:text-white focus-visible:outline-none focus-visible:underline sm:text-sm">
+                      {item.label}
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-
-            <div className="mt-8 pt-6 border-t border-rule/10">
-              <span className="font-sans text-[0.75rem] uppercase tracking-[0.14em] text-ink/50 block mb-1">
-                Academic Portal
-              </span>
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-2 font-sans text-[0.875rem] text-ink/90 hover:text-dept-blue transition-colors"
-              >
-                <span>Department Staff & Admin Portal</span>
-                <span>→</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Nav Directory Columns */}
-          <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-8">
-            {footerNavigation.map((group) => (
-              <div key={group.label}>
-                <Eyebrow className="text-ink/50">{group.label}</Eyebrow>
-                <ul className="mt-4 space-y-2.5">
-                  {group.children?.map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className="font-sans text-[0.875rem] text-ink/70 hover:text-dept-blue transition-colors"
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* Contact & Location Column */}
-          <div className="lg:col-span-3">
-            <Eyebrow className="text-ink/50">Contact & Inquiries</Eyebrow>
-            <address className="mt-4 font-sans not-italic text-[0.875rem] leading-relaxed text-ink/70 space-y-1">
-              {siteConfig.address.map((line, i) => (
-                <span key={i} className="block">
-                  {line}
-                </span>
-              ))}
-              <div className="mt-4 pt-3 border-t border-rule/10 space-y-1">
-                <span className="block">
-                  <a
-                    href={`mailto:${siteConfig.email}`}
-                    className="text-ink/90 underline decoration-ink/30 underline-offset-4 hover:text-dept-blue hover:decoration-dept-blue transition-colors"
-                  >
-                    {siteConfig.email}
-                  </a>
-                </span>
-                <span className="block text-ink/60 text-[0.8125rem]">
-                  {siteConfig.phone}
-                </span>
-              </div>
-            </address>
-          </div>
+          ))}
         </div>
 
-        <Divider className="bg-rule" />
-
-        {/* Sub-footer Bar */}
-        <div className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between text-ink/50">
-          <p className="font-sans text-[0.8125rem]">
-            © {new Date().getUTCFullYear()} {siteConfig.institution} — Department of Computer Science. All rights reserved.
-          </p>
-          <ul className="flex flex-wrap gap-5 font-sans text-[0.8125rem]">
-            <li>
-              <Link href="/about" className="hover:text-ink transition-colors">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="hover:text-ink transition-colors">
-                Contact
-              </Link>
-            </li>
-            <li>
-              <Link href="/feedback" className="hover:text-ink transition-colors">
-                Feedback
-              </Link>
-            </li>
-            <li>
-              <Link href="/past-questions" className="hover:text-ink transition-colors">
-                Past Questions
-              </Link>
-            </li>
-          </ul>
+        <div className="mt-5 flex flex-col gap-2 border-t border-white/25 pt-3 text-[0.6875rem] text-white/80 sm:mt-8 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+          <p>© {new Date().getUTCFullYear()} Computer Science · COMPSSA - KTU</p>
+          <DeveloperAttribution />
         </div>
       </Container>
     </footer>
   );
 }
 
-function FooterCrest() {
+function DeveloperAttribution() {
+  const { name, logoSrc } = siteConfig.developerAttribution;
   return (
-    <div className="flex items-center justify-center w-10 h-10 rounded-sm bg-ink/5 border border-rule">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="w-5 h-5 text-ink"
-      >
-        <path d="M12 2L4 7v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V7l-8-5z" />
-        <path d="M12 7v8" />
-        <path d="M9 11l3-3 3 3" />
-      </svg>
+    <div className="flex items-center gap-2" aria-label={name ? `Developed by ${name}` : "Developer attribution details pending"}>
+      <span className="text-white/70">Developed by</span>
+      <span className="flex h-7 w-7 items-center justify-center overflow-hidden rounded-md border border-white/35 bg-white/10 text-[0.45rem] uppercase tracking-wide text-white/80">
+        {logoSrc ? (
+          <Image src={logoSrc} alt={name ? name + " logo" : "Developer logo"} width={28} height={28} className="h-full w-full object-contain" />
+        ) : "Logo"}
+      </span>
+      <span className="font-medium text-white/90">{name ?? "Name pending"}</span>
     </div>
   );
 }
 
-function FooterSocialDot({
-  href,
-  label,
-  icon,
-}: {
+function FooterSocialDot({ href, label, icon }: {
   href: string;
   label: string;
   icon: "tiktok" | "linkedin" | "whatsapp";
 }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-ink/5 border border-rule text-ink/80 hover:text-dept-blue hover:bg-white/70 hover:border-dept-blue/40 transition-all"
-      aria-label={label}
-    >
-      {icon === "tiktok" && (
-        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden>
-          <path d="M12.548.644a.087.087 0 0 0-.092 0 8.646 8.646 0 0 0-3.664.947.088.088 0 0 0-.04.172 10.065 10.065 0 0 0 3.516 3.746c-1.792 1.262-3.672 2.584-5.64 3.942a.085.085 0 0 0 .12.138c4.03-2.734 9.226-1.864 11.146 1.272a.088.088 0 0 0 .116-.115c.793-1.322 1.574-2.65 2.339-3.994a.087.087 0 0 0-.048-.16 9.161 9.161 0 0 0-4.148-1.762.088.088 0 0 0-.078.026 9.627 9.627 0 0 0-2.086 2.854.086.086 0 0 0 .026.12 5.276 5.276 0 0 0 1.515 1.912.087.087 0 0 0 .125-.048c1.531-1.58 3.538-2.382 4.626-3.926a.087.087 0 0 0-.005-.122 5.693 5.693 0 0 0-2.602-.956.088.088 0 0 0-.115.047 8.924 8.924 0 0 0-3.17 2.71.086.086 0 0 0-.01.123c0 .231.02.46.06.684a.087.087 0 0 0 .12.04c1.17-1.032 2.515-1.678 3.32-2.431a.086.086 0 0 0-.103-.148c-2.73 2.515-6.708 2.298-9.284 1.17a.088.088 0 0 0-.115-.115 7.855 7.855 0 0 0-1.384-2.266.086.086 0 0 0-.12-.045c-.443.624-.913 1.176-1.396 1.814a.086.086 0 0 0 .048.16A12.448 12.448 0 0 1 12.547.643Z" />
-        </svg>
-      )}
-      {icon === "linkedin" && (
-        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden>
-          <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28z" />
-        </svg>
-      )}
-      {icon === "whatsapp" && (
-        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden>
-          <path d="M12 2C6.48 2 2 6.48 2 12a9.97 9.97 0 0 0 .38 2.62L1 23l6.43-1.62A10 10 0 1 0 12 2zm0 18c-2.34 0-4.53-.68-6.34-1.86l-.78-.36-.37-.78c-.52-1.4-.66-3.07-.66-4.76 0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6zm7.36-6.03c-.02-.12-.16-.16-.27-.14-1.1-.16-3.11-.77-4.91-2.54-.78-.76-1.47-1.58-1.59-1.78-.12-.18-.15-.18-.27-.2-.12 0-.25.03-.38.08-1.2.44-2.31 1.25-3.27 2.14-.85.8-.95 1.9-.66 2.44.3.53 1.04 1.1 1.72 1.52.3.19.43.24.6.24.15 0 .23-.02.37-.05.52-.08 1.31-.55 1.87-.85.43-.23.8-.5.96-.7.27-.34.28-.34.38-.78.07-.33.08-.38.02-.65-.07-.23-.17-.33-.37-.46-.24-.18-.38-.23-.8-.46-.68-.39-1.25-.83-1.63-1.4-.34-.5-.3-.72-.16-.97.14-.25.32-.43.46-.55.14-.11.26-.18.4-.25.13-.07.28-.1.4-.1.12 0 .25.02.37.07.46.19.87.82 1.46 1.75.45.71.76 1.3 1.03 1.78.26.48.26.8.25 1.14 0 .2-.03.37-.12.57a.42.42 0 0 1-.27.24c-.34.06-.6.03-.87-.07-1.02-.32-2.28-1.23-3.13-2.22-.97-1.11-1.62-1.98-2.25-2.95-.55-.85-1.17-1.8-1.22-2.11-.04-.29.08-.58.4-.85.4-.34 1.08-.78 1.48-1.2.32-.34.5-.6.5-.94 0-.3-.06-.53-.2-.87-.16-.38-.3-.46-.53-.5-.24-.05-.52-.05-.7-.05-.25 0-.48.03-.72.15-.19.08-.38.14-.53.25-.2.15-.38.37-.52.7-.14.3-.14.56-.14.8 0 .2.03.36.08.5.07.17.2.32.4.5.22.2.5.37.7.37.22 0 .4-.03.64-.1.34-.1.68-.4 1.07-.9.5-.63.87-1.32 1.15-2.12.28-.84.28-1.2.26-1.22a.76.76 0 0 0-.26-.24c-.1-.08-.16-.12-.34-.2-.33-.13-.67-.48-.91-.9-.23-.4-.1-.8.18-1.08.28-.28.7-.66 1.12-1.16.46-.54 1.03-1.28 1.3-2.02.26-.76.18-1.43-.1-1.85-.29-.43-.75-.9-1.28-1.23-.52-.33-.7-.33-1.28-.32-.47 0-.84.07-1.12.3-.25.19-.5.5-.6.83-.1.28-.1.37-.06.55.02.1.06.2.1.29.05.07.1.13.17.19.1.1.33.3.5.6.14.2.22.44.26.66.16.8.27 1.66.27 1.95 0 .37-.02.8-.13 1.12-.15.44-.64 1.14-1.38 1.52-.62.3-1.26.4-1.95.25-.97-.2-2-.53-2.5-1.06-.4-.43-.75-.84-.86-1.26-.1-.38-.08-.58.02-.77.08-.16.2-.3.38-.4.15-.08.3-.13.48-.15.24-.03.53-.05.8-.07.45-.02.86.15 1.16.5.35.4.63.9.78 1.4.13.42.15.84.09 1.16-.06.32-.2.55-.35.83-.2.38-.43.82-.72 1.08-.28.28-.73.48-1.07.7-.3.2-.6.36-.9.5-.36.16-.8.2-1.1.18a.82.82 0 0 1-.4-.05 1.4 1.4 0 0 1-.3-.12.97.97 0 0 1-.2-.14.83.83 0 0 1-.1-.18c-.07-.12-.1-.25-.06-.38.03-.08.08-.15.13-.2.12-.1.28-.17.43-.27.18-.1.4-.22.6-.4.15-.13.27-.27.35-.4.06-.08.06-.16.02-.28-.04-.1-.1-.18-.2-.24-.1-.07-.22-.1-.35-.12-.3-.05-.55-.05-.85-.02-1 .07-1.7.5-2.12 1.12-.4.54-.65 1.16-.7 1.38-.05.23-.02.35.06.4.07.05.13.1.22.12.05.02.1.02.15 0 .1-.02.18-.05.2-.15.02-.22.02-.35 0-.1-.03-.2-.07-.28-.1-.08-.04-.17-.1-.24-.17-.07-.08-.12-.18-.14-.28-.02-.1.02-.2.06-.28.05-.1.12-.17.2-.25.1-.1.23-.18.4-.28.14-.08.26-.1.38-.1.18 0 .3.03.4.08.23.1.44.27.58.5.1.14.16.28.17.44.02.17-.05.33-.1.48-.03.08-.08.14-.17.18-.14.07-.3.1-.45.1-.2 0-.38-.05-.55-.1-.17-.05-.32-.12-.45-.2-.15-.1-.27-.2-.35-.35-.07-.14-.1-.28-.08-.42.03-.2.1-.37.22-.55.12-.18.28-.33.45-.45.15-.1.3-.18.48-.22.17-.05.35-.07.52-.07.27 0 .5.03.7.1.18.07.33.18.43.32.1.16.13.32.08.48-.04.1-.1.2-.17.28-.1.1-.2.17-.33.2-.2.04-.37.02-.5-.05-.24-.13-.4-.3-.45-.55-.05-.28-.1-.55-.08-.8.04-.3.13-.57.25-.8.13-.24.28-.45.43-.6.15-.14.3-.28.45-.4.1-.07.2-.12.3-.17.12-.07.22-.1.32-.1.2 0 .35.03.5.1.16.08.27.2.35.33.1.15.12.3.07.43-.03.07-.08.13-.15.15-.1.03-.23.02-.35-.03-.24-.08-.4-.2-.5-.38-.1-.18-.15-.38-.12-.58.02-.1.08-.18.15-.25.1-.1.23-.17.38-.22.1-.04.2-.05.3-.02.14.03.23.1.3.18.08.08.1.17.08.28-.03.14-.08.25-.12.38-.08.25-.18.48-.3.7-.2.35-.5.58-.83.75-.3.16-.6.27-.9.3-.24.03-.48.03-.7-.02-.15-.03-.27-.08-.38-.13-.1-.07-.17-.15-.2-.25-.05-.15-.08-.3-.08-.45 0-.2.03-.38.08-.5.07-.15.17-.28.28-.38.1-.08.22-.13.35-.15.2-.03.4-.02.6.02.27.05.48.18.65.3.18.12.33.28.43.45.07.12.08.22.03.35-.03.08-.1.13-.18.15-.1.03-.2.03-.3-.02-.1-.05-.18-.1-.25-.18-.07-.08-.1-.2-.07-.32.02-.14.08-.25.15-.38.1-.2.23-.4.38-.58.15-.18.33-.3.55-.37.23-.08.48-.1.73-.08.3 0 .57.02.8.08.3.07.5.2.65.38.15.18.22.37.22.57 0 .18-.02.35-.08.5-.1.25-.27.43-.5.53-.2.08-.45.1-.7.08-.32 0-.6-.07-.82-.2-.23-.15-.38-.35-.48-.58-.08-.18-.1-.3-.08-.48.02-.2.1-.38.2-.57.1-.2.2-.37.25-.53.08-.2.05-.38-.03-.53-.05-.08-.13-.13-.2-.15-.12-.03-.22-.05-.35-.08-.12-.03-.25-.03-.35-.03-.23 0-.4.08-.5.22-.1.15-.12.33-.1.5.02.17.08.33.17.48.1.17.27.28.45.38.2.12.42.22.65.28.3.08.57.08.85.05.25-.03.45-.13.6-.28.18-.18.27-.38.3-.57.03-.2.02-.4-.02-.6-.05-.2-.15-.37-.27-.5-.1-.1-.23-.18-.38-.2-.27-.03-.43-.02-.62.03-.32.08-.57.25-.75.5-.14.18-.23.38-.25.58-.03.25.03.43.13.6.1.18.25.33.4.45.2.17.42.27.65.33.14.03.27.02.38-.03.17-.07.25-.18.3-.3.07-.17.08-.35.03-.52-.05-.2-.15-.35-.27-.48-.15-.18-.32-.35-.5-.48-.18-.13-.37-.22-.57-.25-.17-.03-.35-.02-.52.02-.15.05-.28.15-.38.28-.1.12-.13.27-.1.4.03.17.1.3.2.4.08.07.18.12.28.15.2.07.43.1.65.1.23 0 .43-.03.6-.1.18-.1.3-.23.38-.38.08-.15.1-.3.08-.47-.02-.17-.08-.32-.15-.45-.08-.14-.18-.25-.3-.35-.1-.1-.22-.18-.35-.22-.23-.07-.48-.05-.68.03-.32.13-.57.35-.75.62-.2.3-.32.63-.32.98 0 .22.03.42.1.6.07.17.17.32.28.45.12.14.27.23.43.3.2.08.4.08.6-.03.23-.13.38-.33.48-.5.08-.13.1-.27.08-.4-.02-.13-.1-.25-.18-.32-.08-.07-.18-.12-.3-.15-.23-.07-.48-.08-.7-.05-.3.03-.53.18-.7.38-.2.23-.3.48-.33.73-.03.28.05.52.15.73.1.2.22.38.35.52.17.18.35.3.57.35.3.08.58.08.88.02.28-.07.5-.2.7-.38.2-.17.35-.38.42-.58.08-.2.05-.4-.05-.6-.1-.18-.25-.32-.4-.42-.17-.12-.35-.2-.55-.22-.3-.03-.58-.02-.8.03-.3.07-.53.25-.7.48-.2.27-.3.57-.3.85 0 .28.03.5.13.7.1.18.22.33.35.45.18.17.38.28.6.33.23.05.45.02.65-.07.3-.1.5-.28.62-.5.12-.2.18-.4.18-.63 0-.17-.03-.33-.08-.48-.05-.15-.13-.28-.2-.38-.1-.1-.2-.18-.33-.22-.1-.05-.2-.07-.3-.07-.17 0-.33.02-.5.05-.2.03-.37.1-.52.18-.2.1-.32.23-.4.38-.1.18-.1.37-.07.55.02.17.08.32.15.45.1.2.2.38.32.52.15.2.3.38.48.52.18.13.38.2.58.2.2 0 .38-.03.55-.1.18-.1.3-.23.38-.38.08-.15.1-.3.08-.47-.02-.17-.08-.32-.15-.45-.08-.14-.18-.25-.3-.35-.1-.1-.22-.18-.35-.22-.23-.07-.48-.05-.68.03-.32.13-.57.35-.75.62-.2.3-.32.63-.32.98Z" />
-        </svg>
+    <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white" aria-label={label}>
+      {icon === "tiktok" ? (
+        <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.6 6.2a6.3 6.3 0 0 1-4-1.5v9.1a6.4 6.4 0 1 1-6.4-6.4c.5 0 1 .1 1.5.2v3.5a3 3 0 1 0 1.6 2.7V1h3.5a6.3 6.3 0 0 0 3.8 5.2v0Z" /></svg>
+      ) : (
+        <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28z" /></svg>
       )}
     </a>
   );

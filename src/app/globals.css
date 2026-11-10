@@ -4,7 +4,7 @@
 
 /* =========================================================================
    COMPSSA — Global design system
-   Editorial. Institutional. Minimal. Never AI-gradient, never glassmorphic.
+   Editorial and institutional, with restrained glass surfaces for navigation.
    ========================================================================= */
 
 @layer base {
@@ -192,6 +192,75 @@
       0 10px 30px -12px hsl(var(--foreground) / 0.14);
   }
 
+  .glass-nav-surface {
+    background: linear-gradient(145deg, hsl(var(--color-white) / 0.78), hsl(var(--brand-linen) / 0.66));
+    border-color: hsl(var(--color-white) / 0.7);
+  }
+
+  .glass-logo {
+    background: linear-gradient(145deg, hsl(var(--color-white) / 0.82), hsl(var(--brand-linen) / 0.72));
+    -webkit-backdrop-filter: blur(14px) saturate(145%);
+    backdrop-filter: blur(14px) saturate(145%);
+    border: 1px solid hsl(var(--color-white) / 0.72);
+    box-shadow: 0 8px 30px hsl(60 5% 4% / 0.2), inset 0 1px hsl(var(--color-white) / 0.8);
+  }
+
+  .footer-logo {
+    background: hsl(var(--brand-linen) / 0.9);
+    border: 1px solid hsl(var(--color-white) / 0.65);
+  }
+
+  .hero-glass-card {
+    background: linear-gradient(145deg, rgb(20 31 45 / 0.82), rgb(11 18 29 / 0.76));
+    -webkit-backdrop-filter: blur(14px) saturate(125%);
+    backdrop-filter: blur(14px) saturate(125%);
+    border: 1px solid hsl(var(--color-white) / 0.2);
+    box-shadow: 0 18px 40px -24px rgb(0 0 0 / 0.7), inset 0 1px hsl(var(--color-white) / 0.1);
+  }
+
+  .public-page-enter {
+    animation: public-page-fade-in 150ms ease-out both;
+  }
+
+  @keyframes public-page-fade-in {
+    from { opacity: 0.82; }
+    to { opacity: 1; }
+  }
+
+  .interactive-media-card {
+    border: 1px solid hsl(var(--color-white) / 0.2);
+    transition: border-color 240ms ease, box-shadow 240ms ease, transform 240ms ease;
+  }
+
+  .interactive-media-card.interactive-media-card:hover,
+  .interactive-media-card.interactive-media-card:focus-within {
+    border-color: hsl(var(--brand-scarlet) / 0.82);
+    box-shadow: 0 18px 38px -24px hsl(var(--brand-scarlet) / 0.65);
+  }
+
+  @media (hover: hover) {
+    .interactive-media-card.interactive-media-card:hover {
+      transform: translate3d(0, -2px, 0);
+    }
+  }
+
+  @media (hover: none) {
+    .interactive-media-card.interactive-media-card:active {
+      border-color: hsl(var(--brand-scarlet) / 0.82);
+    }
+  }
+
+  @media (hover: hover) {
+    .hero-glass-card:hover {
+      background: linear-gradient(145deg, rgb(26 39 55 / 0.84), rgb(13 21 33 / 0.78));
+      border-color: hsl(var(--brand-scarlet) / 0.82);
+    }
+  }
+
+  .hero-glass-card:focus-within {
+    border-color: hsl(var(--brand-scarlet) / 0.82);
+  }
+
   /* Specular highlight along the top edge — the "liquid" read. */
   .glass-nav::before {
     content: "";
@@ -269,14 +338,20 @@
 
   /* Interactive cards lift a hair and deepen the border — never jump. */
   .card-surface-interactive:hover {
-    border-color: hsl(var(--foreground) / 0.28);
+    border-color: hsl(var(--brand-scarlet) / 0.62);
     box-shadow:
       0 1px 2px hsl(var(--foreground) / 0.05),
       0 22px 44px -26px hsl(var(--foreground) / 0.3);
     transform: translate3d(0, -2px, 0);
   }
   .card-surface-interactive:focus-within {
-    border-color: hsl(var(--accent) / 0.55);
+    border-color: hsl(var(--brand-scarlet) / 0.7);
+  }
+
+  @media (hover: none) {
+    .card-surface-interactive:active {
+      border-color: hsl(var(--brand-scarlet) / 0.7);
+    }
   }
 
   /* Restrained edge accent — one soft hairline, department accent colour. */
@@ -376,6 +451,9 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
+    .public-page-enter {
+      animation: none !important;
+    }
   }
 
   /* ------------------------------------------------------------------
@@ -451,7 +529,13 @@
   .glass-nav {
     background-color: hsl(var(--background) / 0.99) !important;
   }
+  .glass-logo {
+    background-color: hsl(var(--background) / 0.96);
+  }
   .glass-panel {
     background-color: hsl(var(--background) / 0.99) !important;
+  }
+  .hero-glass-card {
+    background-color: rgb(11 18 29 / 0.96);
   }
 }

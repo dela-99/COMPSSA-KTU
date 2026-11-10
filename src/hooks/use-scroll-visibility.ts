@@ -2,6 +2,46 @@
 
 import * as React from "react";
 
+type ScrollSubscriber = (y: number, delta: number) => void;
+
+const scrollSubscribers = new Set<ScrollSubscriber>();
+let sharedScrollFrame: number | null = null;
+let sharedLastScrollY = 0;
+let sharedScrollHandler: (() => void) | null = null;
+
+/** Share one passive, frame-coalesced document scroll listener across navs. */
+function subscribeToScroll(subscriber: ScrollSubscriber) {
+  scrollSubscribers.add(subscriber);
+
+  if (scrollSubscribers.size === 1) {
+    sharedLastScrollY = window.scrollY;
+    sharedScrollHandler = () => {
+      if (sharedScrollFrame !== null) return;
+      sharedScrollFrame = window.requestAnimationFrame(() => {
+        sharedScrollFrame = null;
+        const y = window.scrollY;
+        const delta = y - sharedLastScrollY;
+        sharedLastScrollY = y;
+        for (const currentSubscriber of scrollSubscribers) {
+          currentSubscriber(y, delta);
+        }
+      });
+    };
+    window.addEventListener("scroll", sharedScrollHandler, { passive: true });
+  }
+
+  return () => {
+    scrollSubscribers.delete(subscriber);
+    if (scrollSubscribers.size > 0 || !sharedScrollHandler) return;
+    window.removeEventListener("scroll", sharedScrollHandler);
+    sharedScrollHandler = null;
+    if (sharedScrollFrame !== null) {
+      window.cancelAnimationFrame(sharedScrollFrame);
+      sharedScrollFrame = null;
+    }
+  };
+}
+
 /**
  * useScrollVisibility — intelligent scroll-based visibility for floating
  * navigation surfaces.
@@ -15,9 +55,8 @@ import * as React from "react";
  *     small jitter never produces a show/hide flicker.
  *
  * Efficiency:
- *   • A single passive scroll listener, throttled through requestAnimationFrame
- *     so scroll handling never runs more than once per frame.
- *   • The listener is removed on unmount.
+ *   • All navigation surfaces share one passive listener and one animation
+ *     frame callback, regardless of how many surfaces are mounted.
  *
  * Interaction safeguards — the caller passes `pinned` when the user is
  * interacting with the navigation (pointer over it, keyboard focus inside it,
@@ -27,6 +66,8 @@ export function useScrollVisibility({
   threshold = 14,
   topOffset = 8,
   pinned = false,
+  hideDirection = "down",
+  showAfterIdleMs = 0,
 }: {
   /** Pixels of accumulated movement required before direction is committed. */
   threshold?: number;
@@ -34,50 +75,67 @@ export function useScrollVisibility({
   topOffset?: number;
   /** Force the surface visible regardless of scroll direction. */
   pinned?: boolean;
+  /** Direction that hides the surface. */
+  hideDirection?: "up" | "down";
+  /** Reveal the surface after scrolling stops. Disabled when zero. */
+  showAfterIdleMs?: number;
 } = {}) {
   const [hidden, setHidden] = React.useState(false);
-  const lastYRef = React.useRef(0);
-  const frameRef = React.useRef<number | null>(null);
+  const accumulatedDeltaRef = React.useRef(0);
+  const idleTimerRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
-    lastYRef.current = window.scrollY;
-
-    const onScroll = () => {
-      if (frameRef.current !== null) return;
-      frameRef.current = window.requestAnimationFrame(() => {
-        frameRef.current = null;
-
-        const y = window.scrollY;
-        const delta = y - lastYRef.current;
-
-        // At the top of the document the navigation is always shown.
-        if (y <= topOffset) {
-          lastYRef.current = y;
+    const unsubscribe = subscribeToScroll((y, delta) => {
+      if (showAfterIdleMs > 0) {
+        if (idleTimerRef.current !== null) window.clearTimeout(idleTimerRef.current);
+        idleTimerRef.current = window.setTimeout(() => {
+          idleTimerRef.current = null;
           setHidden(false);
-          return;
-        }
+        }, showAfterIdleMs);
+      }
 
-        // Hysteresis — ignore movement below the threshold.
-        if (Math.abs(delta) < threshold) return;
+      if (pinned) {
+        setHidden(false);
+        return;
+      }
 
-        lastYRef.current = y;
-        setHidden(delta > 0);
-      });
-    };
+      // At the top of the document the navigation is always shown.
+      if (y <= topOffset) {
+        accumulatedDeltaRef.current = 0;
+        setHidden(false);
+        return;
+      }
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+      // Hysteresis — ignore movement below the threshold.
+      accumulatedDeltaRef.current += delta;
+      if (Math.abs(accumulatedDeltaRef.current) < threshold) return;
+
+      setHidden(
+        hideDirection === "down"
+          ? accumulatedDeltaRef.current > 0
+          : accumulatedDeltaRef.current < 0,
+      );
+      accumulatedDeltaRef.current = 0;
+    });
+
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (frameRef.current !== null) {
-        window.cancelAnimationFrame(frameRef.current);
-        frameRef.current = null;
+      unsubscribe();
+      if (idleTimerRef.current !== null) {
+        window.clearTimeout(idleTimerRef.current);
+        idleTimerRef.current = null;
       }
     };
-  }, [threshold, topOffset]);
+  }, [threshold, topOffset, hideDirection, showAfterIdleMs, pinned]);
 
   // A pinned surface (menu open / pointer / focus inside) is always visible.
   React.useEffect(() => {
-    if (pinned) setHidden(false);
+    if (pinned) {
+      setHidden(false);
+      if (idleTimerRef.current !== null) {
+        window.clearTimeout(idleTimerRef.current);
+        idleTimerRef.current = null;
+      }
+    }
   }, [pinned]);
 
   return pinned ? false : hidden;

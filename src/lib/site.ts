@@ -11,8 +11,8 @@ export type SocialLink = {
 
 export const siteConfig = {
   name: "Department of Computer Science",
-  shortName: "Computer Science",
-  institution: "University",
+  shortName: "COMPSSA KTU",
+  institution: "Koforidua Technical University",
   tagline: "An academic department of computing.",
   description:
     "The official digital home of the Department of Computer Science — programmes, people, research, and student resources.",
@@ -24,8 +24,9 @@ export const siteConfig = {
   socialLinks: [
     { label: "TikTok", href: "https://tiktok.com/@compssa", icon: "tiktok" },
     { label: "LinkedIn", href: "https://linkedin.com/company/compssa", icon: "linkedin" },
-    { label: "WhatsApp", href: "https://wa.me/234XXXXXXXXXX", icon: "whatsapp" },
   ] as SocialLink[],
+  // Replace these null values when the verified developer identity is supplied.
+  developerAttribution: { name: null as string | null, logoSrc: null as string | null },
 } as const;
 
 export type SiteConfig = typeof siteConfig;

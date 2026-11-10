@@ -21,7 +21,7 @@
   Port for the dev server.
 
 .PARAMETER Cold
-  Delete `.next` before the run for a true cold measurement.
+  Delete `.next-dev` before the run for a true cold measurement.
 
 .PARAMETER Turbopack
   Pass `--turbopack` to `next dev`.
@@ -49,9 +49,9 @@ foreach ($f in @($outLog, $errLog, $jsonOut)) {
   if (Test-Path $f) { Remove-Item $f -Force }
 }
 
-if ($Cold -and (Test-Path '.next')) {
-  Write-Host "[$Label] Clearing .next (cold run)..."
-  Remove-Item '.next' -Recurse -Force
+if ($Cold -and (Test-Path '.next-dev')) {
+  Write-Host "[$Label] Clearing .next-dev (cold run)..."
+  Remove-Item '.next-dev' -Recurse -Force
 }
 
 $devArgs = @('run', 'dev', '--', '--port', "$Port")

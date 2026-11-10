@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { PublicPageTransition } from "@/components/layout/public-page-transition";
 
 export default function PublicLayout({
   children,
@@ -17,7 +18,7 @@ export default function PublicLayout({
       */}
       <div className="dock-safe">
         <main id="main" className="min-h-[60vh]">
-          {children}
+          <PublicPageTransition>{children}</PublicPageTransition>
         </main>
         <SiteFooter />
       </div>
