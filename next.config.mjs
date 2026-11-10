@@ -4,8 +4,8 @@ import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
 const sharedNextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  typedRoutes: false,
   experimental: {
-    typedRoutes: false,
     optimizePackageImports: [
       "@/components/ui",
       "@/components/home",

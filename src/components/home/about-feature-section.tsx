@@ -1,5 +1,4 @@
 import * as React from "react";
-import Link from "next/link";
 import { Container, Eyebrow, Reveal, Button } from "@/components/ui";
 import { siteConfig } from "@/lib/site";
 import { programmes, getCurrentHOD } from "@/data";
