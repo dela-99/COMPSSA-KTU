@@ -4,12 +4,12 @@ import { footerNavigation } from "@/lib/navigation";
 import { Container, Divider, Eyebrow } from "@/components/ui";
 
 /**
- * SiteFooter — Editorial, prestigious university dark footer with multi-column
+ * SiteFooter — Editorial, warm linen footer with multi-column
  * navigation, department crest, contact information, and social links.
  */
 export function SiteFooter() {
   return (
-    <footer className="relative mt-20 border-t border-ink bg-ink text-paper overflow-hidden">
+    <footer className="relative mt-20 border-t border-rule bg-paper text-ink overflow-hidden">
       <Container size="wide">
         <div className="grid grid-cols-1 gap-12 py-16 sm:grid-cols-2 lg:grid-cols-12">
           {/* Department Branding & Socials */}
@@ -18,33 +18,33 @@ export function SiteFooter() {
               <div className="flex items-center gap-3">
                 <FooterCrest />
                 <div>
-                  <h3 className="font-serif text-[1.125rem] font-semibold text-paper leading-tight">
+                  <h3 className="font-serif text-[1.125rem] font-semibold text-ink leading-tight">
                     {siteConfig.name}
                   </h3>
-                  <p className="font-sans text-[0.7rem] uppercase tracking-[0.16em] text-paper/60">
+                  <p className="font-sans text-[0.7rem] uppercase tracking-[0.16em] text-ink/60">
                     Faculty of Science
                   </p>
                 </div>
               </div>
 
-              <p className="mt-4 font-serif text-[0.95rem] leading-relaxed text-paper/75 max-w-[34ch]">
+              <p className="mt-4 font-serif text-[0.95rem] leading-relaxed text-ink/75 max-w-[34ch]">
                 {siteConfig.tagline}
               </p>
 
-              <div className="mt-6 flex items-center gap-2 text-paper/80">
+              <div className="mt-6 flex items-center gap-2 text-ink/80">
                 {siteConfig.socialLinks.map((social) => (
                   <FooterSocialDot key={social.label} {...social} />
                 ))}
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-paper/10">
-              <span className="font-sans text-[0.75rem] uppercase tracking-[0.14em] text-paper/50 block mb-1">
+            <div className="mt-8 pt-6 border-t border-rule/10">
+              <span className="font-sans text-[0.75rem] uppercase tracking-[0.14em] text-ink/50 block mb-1">
                 Academic Portal
               </span>
               <Link
                 href="/admin"
-                className="inline-flex items-center gap-2 font-sans text-[0.875rem] text-paper/90 hover:text-white transition-colors"
+                className="inline-flex items-center gap-2 font-sans text-[0.875rem] text-ink/90 hover:text-dept-blue transition-colors"
               >
                 <span>Department Staff & Admin Portal</span>
                 <span>→</span>
@@ -56,13 +56,13 @@ export function SiteFooter() {
           <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-8">
             {footerNavigation.map((group) => (
               <div key={group.label}>
-                <Eyebrow className="text-paper/50">{group.label}</Eyebrow>
+                <Eyebrow className="text-ink/50">{group.label}</Eyebrow>
                 <ul className="mt-4 space-y-2.5">
                   {group.children?.map((item) => (
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="font-sans text-[0.875rem] text-paper/70 hover:text-white transition-colors"
+                        className="font-sans text-[0.875rem] text-ink/70 hover:text-dept-blue transition-colors"
                       >
                         {item.label}
                       </Link>
@@ -75,23 +75,23 @@ export function SiteFooter() {
 
           {/* Contact & Location Column */}
           <div className="lg:col-span-3">
-            <Eyebrow className="text-paper/50">Contact & Inquiries</Eyebrow>
-            <address className="mt-4 font-sans not-italic text-[0.875rem] leading-relaxed text-paper/70 space-y-1">
+            <Eyebrow className="text-ink/50">Contact & Inquiries</Eyebrow>
+            <address className="mt-4 font-sans not-italic text-[0.875rem] leading-relaxed text-ink/70 space-y-1">
               {siteConfig.address.map((line, i) => (
                 <span key={i} className="block">
                   {line}
                 </span>
               ))}
-              <div className="mt-4 pt-3 border-t border-paper/10 space-y-1">
+              <div className="mt-4 pt-3 border-t border-rule/10 space-y-1">
                 <span className="block">
                   <a
                     href={`mailto:${siteConfig.email}`}
-                    className="text-paper/90 underline decoration-paper/30 underline-offset-4 hover:text-white hover:decoration-white transition-colors"
+                    className="text-ink/90 underline decoration-ink/30 underline-offset-4 hover:text-dept-blue hover:decoration-dept-blue transition-colors"
                   >
                     {siteConfig.email}
                   </a>
                 </span>
-                <span className="block text-paper/60 text-[0.8125rem]">
+                <span className="block text-ink/60 text-[0.8125rem]">
                   {siteConfig.phone}
                 </span>
               </div>
@@ -99,31 +99,31 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <Divider className="bg-paper/15" />
+        <Divider className="bg-rule" />
 
         {/* Sub-footer Bar */}
-        <div className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between text-paper/50">
+        <div className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between text-ink/50">
           <p className="font-sans text-[0.8125rem]">
-            © {new Date().getFullYear()} {siteConfig.institution} — Department of Computer Science. All rights reserved.
+            © {new Date().getUTCFullYear()} {siteConfig.institution} — Department of Computer Science. All rights reserved.
           </p>
           <ul className="flex flex-wrap gap-5 font-sans text-[0.8125rem]">
             <li>
-              <Link href="/about" className="hover:text-paper transition-colors">
+              <Link href="/about" className="hover:text-ink transition-colors">
                 About
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:text-paper transition-colors">
+              <Link href="/contact" className="hover:text-ink transition-colors">
                 Contact
               </Link>
             </li>
             <li>
-              <Link href="/feedback" className="hover:text-paper transition-colors">
+              <Link href="/feedback" className="hover:text-ink transition-colors">
                 Feedback
               </Link>
             </li>
             <li>
-              <Link href="/past-questions" className="hover:text-paper transition-colors">
+              <Link href="/past-questions" className="hover:text-ink transition-colors">
                 Past Questions
               </Link>
             </li>
@@ -136,7 +136,7 @@ export function SiteFooter() {
 
 function FooterCrest() {
   return (
-    <div className="flex items-center justify-center w-10 h-10 rounded-sm bg-paper/10 border border-paper/20">
+    <div className="flex items-center justify-center w-10 h-10 rounded-sm bg-ink/5 border border-rule">
       <svg
         viewBox="0 0 24 24"
         fill="none"
@@ -144,7 +144,7 @@ function FooterCrest() {
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="w-5 h-5 text-paper"
+        className="w-5 h-5 text-ink"
       >
         <path d="M12 2L4 7v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V7l-8-5z" />
         <path d="M12 7v8" />
@@ -168,7 +168,7 @@ function FooterSocialDot({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-paper/10 border border-paper/15 text-paper/80 hover:text-white hover:bg-paper/20 hover:border-paper/40 transition-all"
+      className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-ink/5 border border-rule text-ink/80 hover:text-dept-blue hover:bg-white/70 hover:border-dept-blue/40 transition-all"
       aria-label={label}
     >
       {icon === "tiktok" && (

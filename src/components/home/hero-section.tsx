@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Container, Reveal } from "@/components/ui";
 import { siteConfig } from "@/lib/site";
 
@@ -76,38 +77,23 @@ export function HeroSection() {
           <Reveal delay={100}>
             <div className="flex flex-col items-center gap-3">
               {/* Official COMPSSA Logo */}
-              <div className="relative flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 mb-2">
-                <img
+              <div className="mb-2 flex h-24 w-24 items-center justify-center rounded-xl bg-white p-2.5 shadow-xl sm:h-28 sm:w-28 sm:p-3">
+                <Image
                   src="/compssa-logo.png"
-                  alt=""
-                  className="w-full h-full object-contain drop-shadow-lg"
-                  aria-hidden="true"
-                  onError={(e) => {
-                    // Fallback to inline SVG emblem if logo not yet provided
-                    e.currentTarget.style.display = "none";
-                    e.currentTarget.nextElementSibling?.classList.remove("hidden");
-                  }}
+                  alt="COMPSSA official logo"
+                  width={447}
+                  height={447}
+                  priority
+                  className="h-full w-full object-contain"
                 />
-                {/* Fallback emblem — remove when real logo is supplied */}
-                <svg
-                  className="hidden w-full h-full text-white/90 drop-shadow-md"
-                  viewBox="0 0 100 100"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  aria-hidden
-                >
-                  <circle cx="50" cy="50" r="42" stroke="white" strokeOpacity="0.4" strokeDasharray="3 3" />
-                  <path d="M30,70 C22,50 25,30 50,20 C75,30 78,50 70,70" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-                  <path d="M40,65 L50,45 L60,65" stroke="white" strokeWidth="2" />
-                  <path d="M45,55 L55,55" stroke="white" strokeWidth="2" />
-                  <path d="M42,28 L50,22 L58,28 L50,33 Z" fill="white" fillOpacity="0.8" />
-                </svg>
               </div>
 
               {/* COMPSSA - KTU */}
-              <span className="font-sans text-[0.7rem] sm:text-[0.75rem] font-semibold uppercase tracking-[0.24em] text-white/80">
+              <span className="font-sans text-[0.7rem] sm:text-[0.75rem] font-semibold uppercase tracking-[0.24em] text-white">
                 COMPSSA - KTU
+              </span>
+              <span className="font-sans text-[0.7rem] sm:text-[0.75rem] font-semibold uppercase tracking-[0.18em] text-white/80">
+                Department of Computer Science
               </span>
             </div>
           </Reveal>

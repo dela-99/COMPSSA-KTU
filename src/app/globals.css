@@ -9,17 +9,19 @@
 
 @layer base {
   :root {
-    /* Official COMPSSA Department Colours (Phase 5) */
-    /* White — dominant | Blue — secondary/moderate | Red — restrained accent */
-    --color-white: 0 0% 100%;                    /* #FFFFFF */
-    --color-blue: 221 83% 53%;                   /* #2563EB — department blue */
-    --color-red: 0 60% 30%;                      /* #7A1F1F — department red (burgundy) */
+    /* Official COMPSSA palette: Sandy Linen, Aegean Sky, Scarlet Bikini. */
+    --brand-linen: 35.294 34.694% 90.392%;       /* #EFE8DE */
+    --brand-blue: 209.610 77.778% 38.824%;       /* #1664B0 */
+    --brand-scarlet: 355.532 81.034% 45.490%;     /* #D21624 */
+    --color-white: 0 0% 100%;
+    --color-blue: var(--brand-blue);
+    --color-red: var(--brand-scarlet);
 
     /* Existing tokens (HSL versions of our editorial palette) */
-    --background: 60 20% 98%;            /* paper #FAFAF7 */
+    --background: var(--brand-linen);
     --foreground: 60 5% 4%;              /* ink #0B0B0A */
-    --rule: 36 16% 87%;                  /* hairline #E2DFD8 */
-    --accent: 0 60% 30%;                 /* burgundy #7A1F1F (dept red) */
+    --rule: 36 20% 78%;
+    --accent: var(--brand-scarlet);
 
     /*
       Space reserved by the fixed chrome at the top of every page.
@@ -41,18 +43,18 @@
     --dock-offset: 84px;
 
     /* shadcn-aligned semantic tokens (kept in our palette) */
-    --border: 36 16% 87%;
-    --input: 36 16% 87%;
+    --border: 36 20% 78%;
+    --input: 36 20% 78%;
     --ring: 60 5% 4%;
-    --secondary: 36 18% 92%;             /* paper-warm */
+    --secondary: 36 30% 95%;
     --secondary-foreground: 60 5% 4%;
-    --muted: 36 18% 92%;
+    --muted: 36 30% 95%;
     --muted-foreground: 60 3% 42%;
-    --destructive: 0 60% 30%;
+    --destructive: var(--brand-scarlet);
     --destructive-foreground: 60 20% 98%;
-    --popover: 60 20% 98%;
+    --popover: var(--brand-linen);
     --popover-foreground: 60 5% 4%;
-    --card: 60 20% 98%;
+    --card: var(--brand-linen);
     --card-foreground: 60 5% 4%;
 
     /*
@@ -335,8 +337,8 @@
 
 @layer utilities {
   /* =========================================================================
-     Official COMPSSA Department Colour Utilities (Phase 5)
-     White — dominant | Blue — secondary/moderate | Red — restrained accent
+     Official COMPSSA Department Colour Utilities
+     Sandy Linen — dominant | Aegean Sky — secondary | Scarlet Bikini — accent
      ========================================================================= */
   .dept-white { color: hsl(var(--color-white)); }
   .bg-dept-white { background-color: hsl(var(--color-white)); }

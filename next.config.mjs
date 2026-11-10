@@ -5,6 +5,9 @@ const nextConfig = {
   experimental: {
     typedRoutes: false,
     optimizePackageImports: [
+      "@/components/ui",
+      "@/components/home",
+      "@/data",
       "clsx",
       "tailwind-merge",
       "class-variance-authority",

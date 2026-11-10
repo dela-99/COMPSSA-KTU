@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Container, Reveal } from "@/components/ui";
 import { news } from "@/data";
 import { EventCalendarWidget } from "./event-calendar-widget";
+import { formatShortDate } from "@/lib/utils";
 
 /**
  * NewsBentoSection — Dynamic, image-rich editorial bento grid matching the blueprint layout.
@@ -21,29 +22,29 @@ export function NewsBentoSection() {
   };
 
   return (
-    <section className="relative bg-[#0F141C] text-white py-20 sm:py-28 overflow-hidden">
+    <section className="relative bg-paper text-ink py-20 sm:py-28 overflow-hidden">
       {/* Background Campus Graphic with Scrim */}
-      <div className="absolute inset-0 z-0 opacity-25">
+        <div className="absolute inset-0 z-0 opacity-[0.08]">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1920&auto=format&fit=crop')`,
           }}
         />
-        <div className="absolute inset-0 bg-[#0F141C]/85" />
+        <div className="absolute inset-0 bg-paper/90" />
       </div>
 
       <Container size="wide" className="relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/15 pb-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-rule pb-6">
           <Reveal>
             <div className="flex items-center gap-3">
               <span className="inline-block w-3.5 h-3.5 rounded-full bg-dept-blue shadow-md shadow-dept-blue/50" />
-              <h2 className="font-serif text-[2.25rem] sm:text-[2.75rem] font-medium tracking-tight text-white">
+              <h2 className="font-serif text-[2.25rem] sm:text-[2.75rem] font-medium tracking-tight text-ink">
                 News & Updates.
               </h2>
             </div>
-            <p className="mt-2 font-sans text-[0.875rem] text-white/60 tracking-wide">
+            <p className="mt-2 font-sans text-[0.875rem] text-ink/70 tracking-wide">
               Communication Center · Stories, achievements, research developments, and departmental events.
             </p>
           </Reveal>
@@ -51,7 +52,7 @@ export function NewsBentoSection() {
           <Reveal delay={150}>
             <Link
               href="/news"
-              className="inline-flex items-center gap-1.5 font-sans text-[0.875rem] text-white/80 hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 font-sans text-[0.875rem] text-ink/80 hover:text-dept-blue transition-colors"
             >
               <span>View all news</span>
               <span>→</span>
@@ -81,11 +82,7 @@ export function NewsBentoSection() {
                         {featured.tag ?? "Announcement"}
                       </span>
                       <span className="font-sans text-[0.75rem] uppercase tracking-[0.12em] text-white/70">
-                        {new Date(featured.publishedAt).toLocaleDateString("en-GB", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
+                        {formatShortDate(featured.publishedAt, true)}
                       </span>
                     </div>
 
@@ -129,10 +126,7 @@ export function NewsBentoSection() {
                           {secondary.tag ?? "Research"}
                         </span>
                         <span className="font-sans text-[0.6875rem] uppercase tracking-[0.12em] text-white/60">
-                          {new Date(secondary.publishedAt).toLocaleDateString("en-GB", {
-                            day: "numeric",
-                            month: "short",
-                          })}
+                          {formatShortDate(secondary.publishedAt)}
                         </span>
                       </div>
 
@@ -174,10 +168,7 @@ export function NewsBentoSection() {
                           {tertiary.tag ?? "Opportunity"}
                         </span>
                         <span className="font-sans text-[0.6875rem] uppercase tracking-[0.12em] text-white/60">
-                          {new Date(tertiary.publishedAt).toLocaleDateString("en-GB", {
-                            day: "numeric",
-                            month: "short",
-                          })}
+                          {formatShortDate(tertiary.publishedAt)}
                         </span>
                       </div>
 

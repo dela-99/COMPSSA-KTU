@@ -8,24 +8,24 @@ import { programmes } from "@/data";
  */
 export function CommunityCTASection() {
   return (
-    <section className="relative bg-[#090C10] text-white py-20 sm:py-24 border-t border-white/10 overflow-hidden">
+    <section className="relative border-t border-rule bg-paper text-ink py-20 sm:py-24 overflow-hidden">
       <Container size="wide">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-8">
             <Reveal delay={100}>
-              <Eyebrow className="text-white/60">
+              <Eyebrow className="text-ink/70">
                 Academic Excellence & Student Community
               </Eyebrow>
             </Reveal>
 
             <Reveal delay={200}>
-              <h2 className="mt-3 font-serif text-[2.25rem] sm:text-[3rem] font-medium leading-tight text-white max-w-[20ch]">
+              <h2 className="mt-3 font-serif text-[2.25rem] sm:text-[3rem] font-medium leading-tight text-ink max-w-[20ch]">
                 Shaping the future of computing, one graduate at a time.
               </h2>
             </Reveal>
 
             <Reveal delay={300}>
-              <p className="mt-4 font-serif text-[1.0625rem] leading-relaxed text-white/75 max-w-[58ch]">
+              <p className="mt-4 font-serif text-[1.0625rem] leading-relaxed text-ink/80 max-w-[58ch]">
                 Explore our comprehensive degree pathways, browse historical examination papers, or connect with our active student executive council.
               </p>
             </Reveal>
@@ -36,7 +36,7 @@ export function CommunityCTASection() {
                 <Button
                   href="/academics/programmes"
                   size="md"
-                  className="bg-white text-ink hover:bg-white/90 border-white font-medium"
+                  className="bg-dept-blue text-white hover:bg-dept-blue/90 border-dept-blue font-medium"
                 >
                   Explore Programmes ({programmes.length})
                 </Button>
@@ -44,7 +44,7 @@ export function CommunityCTASection() {
                   href="/past-questions"
                   size="md"
                   variant="secondary"
-                  className="bg-transparent text-white border-white/25 hover:bg-white/10 hover:border-white"
+                  className="bg-transparent text-ink border-rule-strong hover:bg-white/50 hover:border-dept-blue"
                 >
                   Past Questions Archive
                 </Button>
@@ -52,7 +52,7 @@ export function CommunityCTASection() {
                   href="/people/executives"
                   size="md"
                   variant="ghost"
-                  className="text-white/80 hover:text-white hover:bg-white/5"
+                  className="text-ink/80 hover:text-dept-blue hover:bg-white/50"
                 >
                   Executive Council →
                 </Button>
@@ -63,40 +63,40 @@ export function CommunityCTASection() {
           {/* Right Highlight Box */}
           <div className="lg:col-span-4">
             <Reveal delay={300} direction="left">
-              <div className="rounded-xl border border-white/15 bg-white/[0.04] p-6 sm:p-7 backdrop-blur-sm">
-                <span className="font-sans text-[0.75rem] font-bold uppercase tracking-[0.14em] text-white/80 block">
+              <div className="rounded-xl border border-rule bg-white/50 p-6 sm:p-7">
+                <span className="font-sans text-[0.75rem] font-bold uppercase tracking-[0.14em] text-ink block">
                   Quick Access
                 </span>
-                <ul className="mt-4 space-y-3 font-sans text-[0.875rem] text-white/70">
-                  <li className="flex items-center justify-between border-b border-white/10 pb-2">
-                    <Link href="/academics/courses" className="hover:text-white transition-colors">
+                <ul className="mt-4 space-y-3 font-sans text-[0.875rem] text-ink/80">
+                  <li className="flex items-center justify-between border-b border-rule pb-2">
+                    <Link href="/academics/courses" className="hover:text-dept-blue transition-colors">
                       Course Directory
                     </Link>
-                    <span className="text-white/40">→</span>
+                    <span className="text-ink/50">→</span>
                   </li>
-                  <li className="flex items-center justify-between border-b border-white/10 pb-2">
-                    <Link href="/people/staff" className="hover:text-white transition-colors">
+                  <li className="flex items-center justify-between border-b border-rule pb-2">
+                    <Link href="/people/staff" className="hover:text-dept-blue transition-colors">
                       Faculty & Staff List
                     </Link>
-                    <span className="text-white/40">→</span>
+                    <span className="text-ink/50">→</span>
                   </li>
-                  <li className="flex items-center justify-between border-b border-white/10 pb-2">
-                    <Link href="/people/hod" className="hover:text-white transition-colors">
+                  <li className="flex items-center justify-between border-b border-rule pb-2">
+                    <Link href="/people/hod" className="hover:text-dept-blue transition-colors">
                       Head of Department
                     </Link>
-                    <span className="text-white/40">→</span>
+                    <span className="text-ink/50">→</span>
                   </li>
-                  <li className="flex items-center justify-between border-b border-white/10 pb-2">
-                    <Link href="/gallery" className="hover:text-white transition-colors">
+                  <li className="flex items-center justify-between border-b border-rule pb-2">
+                    <Link href="/gallery" className="hover:text-dept-blue transition-colors">
                       Department Photo Gallery
                     </Link>
-                    <span className="text-white/40">→</span>
+                    <span className="text-ink/50">→</span>
                   </li>
                   <li className="flex items-center justify-between pt-1">
-                    <Link href="/feedback" className="hover:text-white transition-colors">
+                    <Link href="/feedback" className="hover:text-dept-blue transition-colors">
                       Student Feedback & Inquiries
                     </Link>
-                    <span className="text-white/40">→</span>
+                    <span className="text-ink/50">→</span>
                   </li>
                 </ul>
               </div>

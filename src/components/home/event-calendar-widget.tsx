@@ -19,8 +19,8 @@ export function EventCalendarWidget({ className }: { className?: string }) {
 
   const [selectedEvent, setSelectedEvent] = React.useState<EventItem | null>(() => events[0] ?? null);
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
+  const year = currentDate.getUTCFullYear();
+  const month = currentDate.getUTCMonth();
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -28,27 +28,27 @@ export function EventCalendarWidget({ className }: { className?: string }) {
   ];
 
   // Calendar calculations
-  const firstDayIndex = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDayIndex = new Date(Date.UTC(year, month, 1)).getUTCDay();
+  const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
 
   const handlePrevMonth = () => {
-    setCurrentDate(new Date(year, month - 1, 1));
+    setCurrentDate(new Date(Date.UTC(year, month - 1, 1)));
   };
 
   const handleNextMonth = () => {
-    setCurrentDate(new Date(year, month + 1, 1));
+    setCurrentDate(new Date(Date.UTC(year, month + 1, 1)));
   };
 
   // Find events in the current viewing month
   const eventsInMonth = React.useMemo(() => {
     return events.filter((e) => {
       const d = new Date(e.startsAt);
-      return d.getFullYear() === year && d.getMonth() === month;
+      return d.getUTCFullYear() === year && d.getUTCMonth() === month;
     });
   }, [year, month]);
 
   const getEventForDay = (day: number) => {
-    return eventsInMonth.find((e) => new Date(e.startsAt).getDate() === day);
+    return eventsInMonth.find((e) => new Date(e.startsAt).getUTCDate() === day);
   };
 
   return (
@@ -107,7 +107,8 @@ export function EventCalendarWidget({ className }: { className?: string }) {
         {Array.from({ length: daysInMonth }).map((_, i) => {
           const day = i + 1;
           const dayEvent = getEventForDay(day);
-          const isSelected = selectedEvent && new Date(selectedEvent.startsAt).getDate() === day && new Date(selectedEvent.startsAt).getMonth() === month && new Date(selectedEvent.startsAt).getFullYear() === year;
+          const selectedDate = selectedEvent ? new Date(selectedEvent.startsAt) : null;
+          const isSelected = selectedDate && selectedDate.getUTCDate() === day && selectedDate.getUTCMonth() === month && selectedDate.getUTCFullYear() === year;
 
           return (
             <button
@@ -135,7 +136,7 @@ export function EventCalendarWidget({ className }: { className?: string }) {
       {selectedEvent && (
         <div className="mt-4 pt-3 border-t border-rule/60">
           <span className="font-sans text-[0.6875rem] uppercase tracking-[0.14em] text-accent font-semibold block">
-            Featured Event · {new Date(selectedEvent.startsAt).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
+            Featured Event · {new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "UTC" }).format(new Date(selectedEvent.startsAt))}
           </span>
           <Link
             href={`/events`}
