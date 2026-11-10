@@ -104,7 +104,7 @@ export function SiteFooter() {
         {/* Sub-footer Bar */}
         <div className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between text-paper/50">
           <p className="font-sans text-[0.8125rem]">
-            © {new Date().getFullYear()} {siteConfig.institution} — Department of Computer Science. All rights reserved.
+            © {new Date().getUTCFullYear()} {siteConfig.institution} — Department of Computer Science. All rights reserved.
           </p>
           <ul className="flex flex-wrap gap-5 font-sans text-[0.8125rem]">
             <li>

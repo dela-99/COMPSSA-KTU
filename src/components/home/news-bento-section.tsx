@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Container, Reveal } from "@/components/ui";
 import { news } from "@/data";
 import { EventCalendarWidget } from "./event-calendar-widget";
+import { formatShortDate } from "@/lib/utils";
 
 /**
  * NewsBentoSection — Dynamic, image-rich editorial bento grid matching the blueprint layout.
@@ -81,11 +82,7 @@ export function NewsBentoSection() {
                         {featured.tag ?? "Announcement"}
                       </span>
                       <span className="font-sans text-[0.75rem] uppercase tracking-[0.12em] text-white/70">
-                        {new Date(featured.publishedAt).toLocaleDateString("en-GB", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
+                        {formatShortDate(featured.publishedAt, true)}
                       </span>
                     </div>
 
@@ -129,10 +126,7 @@ export function NewsBentoSection() {
                           {secondary.tag ?? "Research"}
                         </span>
                         <span className="font-sans text-[0.6875rem] uppercase tracking-[0.12em] text-white/60">
-                          {new Date(secondary.publishedAt).toLocaleDateString("en-GB", {
-                            day: "numeric",
-                            month: "short",
-                          })}
+                          {formatShortDate(secondary.publishedAt)}
                         </span>
                       </div>
 
@@ -174,10 +168,7 @@ export function NewsBentoSection() {
                           {tertiary.tag ?? "Opportunity"}
                         </span>
                         <span className="font-sans text-[0.6875rem] uppercase tracking-[0.12em] text-white/60">
-                          {new Date(tertiary.publishedAt).toLocaleDateString("en-GB", {
-                            day: "numeric",
-                            month: "short",
-                          })}
+                          {formatShortDate(tertiary.publishedAt)}
                         </span>
                       </div>
 

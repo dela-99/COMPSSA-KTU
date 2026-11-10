@@ -4,6 +4,7 @@ const nextConfig = {
   poweredByHeader: false,
   experimental: {
     typedRoutes: false,
+    optimizePackageImports: ["@/components/ui", "@/components/home", "@/data"],
   },
 };
 

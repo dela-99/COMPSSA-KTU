@@ -17,6 +17,19 @@ export function formatDate(value: string | Date): string {
     day: "numeric",
     month: "long",
     year: "numeric",
+    timeZone: "UTC",
+  }).format(date);
+}
+
+/** Format an ISO timestamp for compact editorial labels in a stable timezone. */
+export function formatShortDate(value: string | Date, includeYear = false): string {
+  const date = typeof value === "string" ? new Date(value) : value;
+  if (Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    ...(includeYear ? { year: "numeric" as const } : {}),
+    timeZone: "UTC",
   }).format(date);
 }
 
