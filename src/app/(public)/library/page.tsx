@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import {
   Container,
   Section,
@@ -148,12 +149,19 @@ export default function LibraryPage() {
                 className="flex h-full flex-col overflow-hidden"
               >
                 <CardMedia ratio="16 / 9" className="w-full">
-                  <span className="absolute inset-0 flex items-center justify-center">
-                    <NavIcon
-                      name={galleryDestination.icon ?? "gallery"}
-                      className="h-9 w-9 text-ink-subtle/40"
+                  {latestGallery ? (
+                    <Image
+                      src={latestGallery.imageUrl}
+                      alt={latestGallery.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 42vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     />
-                  </span>
+                  ) : (
+                    <span className="absolute inset-0 flex items-center justify-center">
+                      <NavIcon name={galleryDestination.icon ?? "gallery"} className="h-9 w-9 text-ink-subtle/40" />
+                    </span>
+                  )}
                 </CardMedia>
                 <div className="flex flex-1 flex-col p-6 pt-5 sm:p-7 sm:pt-5">
                   <CardHeader className="mb-3 flex items-center gap-3">

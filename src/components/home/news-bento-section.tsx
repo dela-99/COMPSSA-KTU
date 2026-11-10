@@ -200,15 +200,12 @@ export function NewsBentoSection() {
           <div className="lg:col-span-4 flex flex-col gap-6">
             {/* Top Bulletin / Spotlight Pill */}
             <Reveal delay={150}>
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-dept-blue/20 border border-dept-blue/40 text-dept-blue shrink-0 font-serif font-bold text-sm">
-                  CS
-                </div>
-                <div className="min-w-0 flex-1">
-          <span className="font-sans text-[0.6875rem] uppercase tracking-[0.14em] text-white/70 block">
+              <div className="min-w-0 rounded-xl border border-white/10 bg-white/5 p-4">
+                <div className="min-w-0">
+                  <span className="block font-sans text-[0.6875rem] uppercase tracking-[0.14em] text-white/70">
                     Latest
                   </span>
-                  <p className="font-serif text-[0.875rem] font-medium text-white truncate">
+                  <p className="mt-1 font-serif text-sm font-medium leading-snug text-white">
                     Academic Calendar · Tutorial Schedule
                   </p>
                 </div>

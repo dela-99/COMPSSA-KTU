@@ -88,6 +88,10 @@ export function Nav({
   }
 
   // Desktop Horizontal Navigation
+  const activeGroup = items.find(
+    (candidate) => candidate.href !== "#" &&
+      (pathname === candidate.href || (candidate.href !== "/" && pathname.startsWith(candidate.href + "/"))),
+  );
   return (
     <nav
       className={cn("flex items-center gap-0.5 xl:gap-1.5", className)}
@@ -99,6 +103,7 @@ export function Nav({
             key={item.href}
             item={item}
             pathname={pathname}
+            isActive={activeGroup ? activeGroup.href === item.href : Boolean(item.children?.some((child) => pathname === child.href.split("#")[0]))}
             onNavigate={onNavigate}
             alignRight={index === items.length - 1}
           />
@@ -111,11 +116,13 @@ export function Nav({
 function DesktopNavItem({
   item,
   pathname,
+  isActive,
   onNavigate,
   alignRight = false,
 }: {
   item: NavGroup;
   pathname: string;
+  isActive: boolean;
   onNavigate?: () => void;
   alignRight?: boolean;
 }) {
@@ -126,11 +133,6 @@ function DesktopNavItem({
   const navRef = React.useRef<HTMLLIElement>(null);
 
   const panelId = `nav-panel-${item.label.toLowerCase().replace(/\s+/g, "-")}`;
-
-  const isActive =
-    pathname === item.href ||
-    (item.href !== "/" && pathname.startsWith(item.href + "/")) ||
-    item.children?.some((c) => pathname === c.href.split("#")[0]);
 
   const hasChildren = !!item.children?.length;
   /** "More" has no page of its own — it is a menu trigger only. */
